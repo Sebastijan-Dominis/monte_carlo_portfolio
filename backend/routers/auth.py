@@ -92,7 +92,7 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"User creation failed: {str(e)}")
 
-@router.post("/authorize", status_code=status.HTTP_204_NO_CONTENT)
+@router.post("/authorize", status_code=status.HTTP_200_OK)
 async def authorize_user(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     email = form_data.username
     password = form_data.password
@@ -103,7 +103,7 @@ async def authorize_user(db: db_dependency, form_data: Annotated[OAuth2PasswordR
     return {"access_token": token, "token_type": "bearer"}
 
 
-# only for dev mode:
+# only for development:
 #------------------------------------------------------------
 @router.get("/all-users")
 async def read_users(db: db_dependency):
