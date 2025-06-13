@@ -4,24 +4,15 @@ from sqlalchemy.orm import Session
 from typing import Annotated, Literal
 from database import SessionLocal
 from models import Users, PortfolioSettings
-from .auth import authorization
 from pydantic import BaseModel, Field
+
 from .simulations import RequestMonteCarlo as PortfolioSettingsRequest
+from utils.dependencies import db_dependency, user_dependency
 
 router = APIRouter(
     prefix="/portfolio_settings",
     tags=["portfolio_settings"]
 )
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-db_dependency = Annotated[Session, Depends(get_db)]
-user_dependency = Annotated[dict, Depends(authorization)]
 
 MAX_SETTINGS_PER_USER = 10
 

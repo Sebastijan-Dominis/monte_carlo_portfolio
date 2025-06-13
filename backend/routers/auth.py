@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, Path, HTTPException
 from database import SessionLocal
 from sqlalchemy.orm import Session
 from typing import Annotated
-from models import Users
 from passlib.context import CryptContext
 from starlette import status
 from pydantic import BaseModel, Field
@@ -12,19 +11,18 @@ from dotenv import load_dotenv
 import os
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 
+from models import Users
+from utils.dependencies import db_dependency, argon2_context, oauth2_bearer, oauth2_bearer_dependency
+
+load_dotenv()
+
 router = APIRouter(
     prefix="/auth",
     tags=["auth"]
 )
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-db_dependency = Annotated[Session, Depends(get_db)]
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 
 class CreateUserRequest(BaseModel):
     email: str = Field(min_length=11, max_length=150)
@@ -39,7 +37,9 @@ class CreateUserRequest(BaseModel):
         }
     }
 
-argon2_context = CryptContext(schemes=["argon2"], deprecated="auto")
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
 def authenticate_user(email: str, password: str, db: db_dependency):
     user = db.query(Users).filter(Users.email == email).first()
@@ -49,34 +49,10 @@ def authenticate_user(email: str, password: str, db: db_dependency):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password.")
     return user
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-load_dotenv()
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
-
 def create_token(email: str, user_id: int):
     encoding = {"sub": email, "id": user_id, "exp": datetime.now(timezone.utc) + timedelta(minutes=60)}
     token = jwt.encode(encoding, SECRET_KEY, algorithm=ALGORITHM)
     return token
-
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/authorize")
-
-def authorization(token: Annotated[str, Depends(oauth2_bearer)]):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        user_id: int = payload.get("id")
-
-        if email is None or user_id is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed.")
-        
-        return {"email": email, "id": user_id}
-    
-    except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed.")
 
 @router.post("/create-user", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
