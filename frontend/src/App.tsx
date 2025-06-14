@@ -6,9 +6,12 @@ import { AuthProvider } from "./auth/AuthContext";
 import Spinner from "./spinner/Spinner";
 import Navbar from "./nav/Navbar";
 import Footer from "./footer/Footer";
+import PrivateRoute from "./protected_routes/PrivateRoute";
+
 const Login = lazy(() => import("./auth/Login"));
 const Sim = lazy(() => import("./simulation/Sim"));
 const Signup = lazy(() => import("./signup/Signup"));
+const Instructions = lazy(() => import("./simulation/Instructions"));
 
 function App() {
   return (
@@ -21,13 +24,30 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <Navbar />
-          <Suspense fallback={<Spinner />}>
-            <Routes>
-              <Route index element={<Sim />}></Route>
-              <Route path="login" element={<Login />}></Route>
-              <Route path="signup" element={<Signup />}></Route>
-            </Routes>
-          </Suspense>
+          <div className="h-[88dvh] overflow-y-scroll pt-16">
+            <Suspense fallback={<Spinner />}>
+              <Routes>
+                <Route index element={<Sim />} />
+                <Route
+                  path="login"
+                  element={
+                    <PrivateRoute>
+                      <Login />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="signup"
+                  element={
+                    <PrivateRoute>
+                      <Signup />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="instructions" element={<Instructions />} />
+              </Routes>
+            </Suspense>
+          </div>
           <Footer />
         </AuthProvider>
       </BrowserRouter>

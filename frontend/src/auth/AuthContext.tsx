@@ -5,12 +5,15 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
-// import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   email: string;
+  isLoggingIn: boolean;
+  error: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -24,37 +27,66 @@ interface AuthProviderProps {
 export const AuthProvider = function ({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
-  //   const navigate = useNavigate();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
+    const currEmail = localStorage.getItem("email");
+    if (currEmail) setEmail(currEmail);
   }, []);
 
+  const validateInputs = (email: string, password: string) => {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+    if (!password || password.length < 8 || password.length > 20) {
+      alert("Please enter a valid password.");
+      return false;
+    }
+    return true;
+  };
+
   const login = async (email: string, password: string) => {
+    const valid = validateInputs(email, password);
+    if (!valid) return;
     const formData = new FormData();
     formData.append("username", email);
     formData.append("password", password);
+    setIsLoggingIn(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/authorize`,
         formData,
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          timeout: 5000,
         }
       );
       if (response.status !== 200) {
         throw new Error("Login failed");
       }
       localStorage.setItem("token", response.data.access_token);
-      // navigate()
+      localStorage.setItem("email", email);
       setIsLoggedIn(true);
       setEmail(email);
+      navigate("/");
     } catch (error) {
-      console.error("Login failed:", error);
-      // if(error.response.status === 401) {
-      //     navigate("/login")
-      // }
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "API Error: ",
+          error?.response?.data?.detail ?? error?.message
+        );
+        setError(error?.response?.data?.detail ?? error?.message);
+      } else {
+        console.error("Unknown Error: ", error);
+      }
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -65,7 +97,9 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, email, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, email, isLoggingIn, error, setError, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
