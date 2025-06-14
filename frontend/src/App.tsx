@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import monte_carlo_bg from "./assets/monte_carlo_bg.svg";
 import { AuthProvider } from "./auth/AuthContext";
+import { SettingsProvider } from "./settings_mc_context/SettingsContext";
 import Spinner from "./spinner/Spinner";
 import Navbar from "./nav/Navbar";
 import Footer from "./footer/Footer";
@@ -24,33 +25,35 @@ function App() {
       />
       <BrowserRouter>
         <AuthProvider>
-          <Navbar />
-          <div className="h-[88dvh] overflow-y-scroll pt-16">
-            <Suspense fallback={<Spinner />}>
-              <Routes>
-                <Route index element={<Sim />} />
-                <Route
-                  path="login"
-                  element={
-                    <PrivateRoute>
-                      <Login />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="signup"
-                  element={
-                    <PrivateRoute>
-                      <Signup />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="instructions" element={<Instructions />} />
-                <Route path="settings" element={<Saved />} />
-              </Routes>
-            </Suspense>
-          </div>
-          <Footer />
+          <SettingsProvider>
+            <Navbar />
+            <div className="h-[88dvh] overflow-y-scroll pt-16">
+              <Suspense fallback={<Spinner />}>
+                <Routes>
+                  <Route index element={<Sim />} />
+                  <Route
+                    path="login"
+                    element={
+                      <PrivateRoute>
+                        <Login />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="signup"
+                    element={
+                      <PrivateRoute>
+                        <Signup />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route path="instructions" element={<Instructions />} />
+                  <Route path="settings" element={<Saved />} />
+                </Routes>
+              </Suspense>
+            </div>
+            <Footer />
+          </SettingsProvider>
         </AuthProvider>
       </BrowserRouter>
     </>

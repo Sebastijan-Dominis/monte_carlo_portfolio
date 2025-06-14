@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Spinner from "../spinner/Spinner";
+import { useSettings } from "../settings_mc_context/SettingsContext";
 
 type Settings = {
   tickers: Array<string>;
@@ -17,7 +18,7 @@ function Sim() {
   const [tickerInput, setTickerInput] = useState("");
   const [tickers, setTickers] = useState<Array<string>>([]);
   const [distributionInput, setDistributionInput] = useState("");
-  const [distributions, setDistributions] = useState<Array<number>>([]);
+  const [distribution, setDistribution] = useState<Array<number>>([]);
 
   const [simulating, setSimulating] = useState(false);
   const [error, setError] = useState("");
@@ -34,15 +35,15 @@ function Sim() {
   }
 
   function handleAddDistribution() {
-    setDistributions((distributions) => [
-      ...distributions,
+    setDistribution((distribution) => [
+      ...distribution,
       Number(distributionInput),
     ]);
     setDistributionInput("");
   }
 
   function handleDeleteDistribution() {
-    setDistributions([]);
+    setDistribution([]);
     setDistributionInput("");
   }
 
@@ -57,10 +58,10 @@ function Sim() {
     }
     if (
       distributionType === "exact" &&
-      distributions.length !== tickers.length
+      distribution.length !== tickers.length
     ) {
       alert(
-        "When using exact distribution type, the length of tickers and distributions need to match."
+        "When using exact distribution type, the length of tickers and distribution need to match."
       );
       return false;
     }
@@ -101,13 +102,22 @@ function Sim() {
 
     const settings: Settings = {
       tickers: tickers,
-      distribution: distributions,
+      distribution: distribution,
       distribution_type: distributionType,
       initial_portfolio: initialAmount,
     };
 
     simulate(settings);
   };
+
+  const { currentSettings } = useSettings();
+  useEffect(() => {
+    if (!currentSettings.initial_portfolio) return;
+    setTickers(currentSettings.tickers);
+    setDistribution(currentSettings.distribution);
+    setDistributionType(currentSettings.distribution_type);
+    setInitialAmount(currentSettings.initial_portfolio);
+  }, [currentSettings]);
 
   return (
     <>
@@ -169,8 +179,8 @@ function Sim() {
             </button>
           </div>
           <div className="mt-2 flex flex-col items-center justify-center">
-            <p>Distributions:</p>
-            <p>{distributions.join(", ")}</p>
+            <p>Distribution:</p>
+            <p>{distribution.join(", ")}</p>
             <h2>Add distribution</h2>
             <input
               type="text"
@@ -188,7 +198,7 @@ function Sim() {
               className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
               onClick={handleDeleteDistribution}
             >
-              Delete distributions
+              Delete distribution
             </button>
           </div>
           <button

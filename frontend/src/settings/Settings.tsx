@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import Spinner from "../spinner/Spinner";
 import { useAuth } from "../auth/AuthContext";
+import { useSettings } from "../settings_mc_context/SettingsContext";
 
 interface SettingsType {
   id: number;
@@ -18,6 +20,45 @@ function Settings() {
   const [fetchingSettings, setFetchingSettings] = useState(false);
   const [error, setError] = useState("");
   const [settings, setSettings] = useState<Array<SettingsType> | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const { setCurrentSettings } = useSettings();
+
+  const navigate = useNavigate();
+
+  const handleSelect = (s: SettingsType) => {
+    setSelectedId(s.id);
+    const newSettings = {
+      tickers: s.tickers,
+      distribution_type: s.distribution_type,
+      distribution: s.distribution,
+      initial_portfolio: s.initial_portfolio,
+    };
+    setCurrentSettings(newSettings);
+  };
+
+  const [usingSettings, setUsingSettings] = useState(false);
+
+  const handleUse = () => {
+    if (!selectedId) {
+      alert("Please select which settings to use by clicking.");
+      return;
+    }
+    setUsingSettings(true);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    return () => {
+      if (!usingSettings) {
+        setCurrentSettings({
+          initial_portfolio: 0,
+          distribution_type: "random",
+          tickers: [],
+          distribution: [],
+        });
+      }
+    };
+  }, [usingSettings, setCurrentSettings]);
 
   useEffect(() => {
     const fetchSettings = async function () {
@@ -62,7 +103,10 @@ function Settings() {
             <button className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm">
               Add
             </button>
-            <button className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm">
+            <button
+              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
+              onClick={handleUse}
+            >
               Use
             </button>
             <button className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm">
@@ -75,7 +119,15 @@ function Settings() {
           <ul className="justify-self-center">
             {settings?.map((s) => (
               <li key={s.id}>
-                <div className="mb-4 flex flex-col items-center rounded-xl bg-[#d2d2d2] px-4 py-2">
+                <div
+                  onClick={() => handleSelect(s)}
+                  className={`mb-4 flex flex-col items-center rounded-xl px-4 py-2 ${
+                    selectedId === s.id
+                      ? "bg-[#bbb] ring-4 ring-[#00D1B2]"
+                      : "bg-[#d2d2d2]"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                >
                   <p>initial amount: {s.initial_portfolio}</p>
                   <p>tickers: {s.tickers.join(", ")}</p>
                   <p>distribution type: {s.distribution_type}</p>
