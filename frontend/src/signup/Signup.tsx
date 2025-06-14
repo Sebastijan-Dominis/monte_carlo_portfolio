@@ -41,13 +41,16 @@ function Signup() {
     if (!valid) return;
     try {
       setIsSigningUp(true);
-      await axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/create-user`,
         formData,
         {
-          timeout: 5000,
+          timeout: 15000,
         }
       );
+      if (response.status !== 201) {
+        throw new Error("Signup Failed.");
+      }
       navigate("/login");
     } catch (error) {
       if (axios.isAxiosError(error)) {

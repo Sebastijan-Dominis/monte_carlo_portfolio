@@ -76,8 +76,12 @@ function Sim() {
         {
           responseType: "blob",
           headers: { "Content-Type": "application/json" },
+          timeout: 30000,
         }
       );
+      if (response.status !== 200) {
+        throw new Error("Simulation Failed.");
+      }
       setUrl(URL.createObjectURL(response.data));
     } catch (error) {
       if (axios.isAxiosError(error)) {

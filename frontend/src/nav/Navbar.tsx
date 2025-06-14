@@ -22,7 +22,7 @@ function Navbar() {
         <div className="flex gap-4">
           <NavBtn link="/about">About</NavBtn>
           <NavBtn link="/">Sim</NavBtn>
-          <NavBtn link="/saved">Saved</NavBtn>
+          <NavBtn link="/settings">Stngs</NavBtn>
         </div>
         <div className="flex gap-4">
           {!isLoggedIn && !isLoggingIn && <NavBtn link="/login">Login</NavBtn>}

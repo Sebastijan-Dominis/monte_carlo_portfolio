@@ -64,7 +64,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
         formData,
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          timeout: 5000,
+          timeout: 15000,
         }
       );
       if (response.status !== 200) {

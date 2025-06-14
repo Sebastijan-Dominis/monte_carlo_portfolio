@@ -12,6 +12,7 @@ const Login = lazy(() => import("./auth/Login"));
 const Sim = lazy(() => import("./simulation/Sim"));
 const Signup = lazy(() => import("./signup/Signup"));
 const Instructions = lazy(() => import("./simulation/Instructions"));
+const Saved = lazy(() => import("./settings/Settings"));
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
                   }
                 />
                 <Route path="instructions" element={<Instructions />} />
+                <Route path="settings" element={<Saved />} />
               </Routes>
             </Suspense>
           </div>
