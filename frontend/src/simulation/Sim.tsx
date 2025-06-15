@@ -215,15 +215,20 @@ function Sim() {
       )}
       {url && (
         <>
-          <button className="ml-2 text-[#d2d2d2]" onClick={() => setUrl("")}>
+          <button
+            className="ml-2 text-[#d2d2d2] md:ml-6 md:mt-6 lg:ml-8 lg:mt-8 xl:ml-10 xl:mt-12"
+            onClick={() => setUrl("")}
+          >
             &larr; Back
           </button>
-          <div className="flex flex-col items-center gap-6 text-[#d2d2d2]">
-            <h1 className="font-bold">Results:</h1>
+          <div className="flex flex-col items-center gap-6 text-[#d2d2d2] md:gap-8 lg:gap-10 xl:gap-12">
+            <h1 className="font-bold md:text-lg lg:text-xl xl:text-2xl">
+              Results:
+            </h1>
             <img
               src={url}
               alt="Monte Carlo simulation result"
-              className="w-[75dvw]"
+              className="w-[75dvw] md:w-[65dvw] lg:w-[50dvw] xl:w-[40dvw]"
             />
           </div>
         </>
@@ -231,12 +236,17 @@ function Sim() {
       {simulating && <Spinner />}
       {error && (
         <>
-          <button className="ml-2 text-[#d2d2d2]" onClick={() => setError("")}>
+          <button
+            className="ml-2 text-[#d2d2d2] md:ml-6 md:mt-6 lg:ml-8 lg:mt-8 xl:ml-10 xl:mt-12"
+            onClick={() => setError("")}
+          >
             &larr; Back
           </button>
-          <div className="flex flex-col items-center gap-6 text-center text-[#d2d2d2]">
-            <h1 className="text-lg">An error occured</h1>
-            <p>{error}</p>
+          <div className="flex flex-col items-center gap-6 text-center text-[#d2d2d2] md:mt-4 lg:mt-8 xl:mt-12">
+            <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl">
+              An error occured
+            </h1>
+            <p className="lg:mt-4 xl:mt-8">{error}</p>
           </div>
         </>
       )}
