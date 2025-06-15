@@ -13,9 +13,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-routers = [simulations_router, auth_router, portfolio_settings_router]
-for router in routers:
-    app.include_router(router)
+load_dotenv()
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +22,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+routers = [simulations_router, auth_router, portfolio_settings_router]
+for router in routers:
+    app.include_router(router)
 
 @app.get("/")
 async def health_check():

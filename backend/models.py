@@ -13,7 +13,7 @@ class PortfolioSettings(Base):
     __tablename__ = "portfolio_settings"
     
     id = Column(Integer, primary_key=True, index=True, nullable=False)
-    ticks = Column(JSON, nullable=False)
+    tickers = Column(JSON, nullable=False)
     distribution_type = Column(String, nullable=False)
     distribution = Column(JSON, nullable=False)
     initial_portfolio = Column(Float, nullable=False)

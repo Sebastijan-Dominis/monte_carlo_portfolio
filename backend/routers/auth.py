@@ -49,8 +49,10 @@ def authenticate_user(email: str, password: str, db: db_dependency):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password.")
     return user
 
+TOKEN_EXPIRATION_TIME = 60
+
 def create_token(email: str, user_id: int):
-    encoding = {"sub": email, "id": user_id, "exp": datetime.now(timezone.utc) + timedelta(minutes=60)}
+    encoding = {"sub": email, "id": user_id, "exp": datetime.now(timezone.utc) + timedelta(minutes=TOKEN_EXPIRATION_TIME)}
     token = jwt.encode(encoding, SECRET_KEY, algorithm=ALGORITHM)
     return token
 
@@ -58,6 +60,14 @@ def create_token(email: str, user_id: int):
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
     try:
         email = create_user_request.email
+
+        existing = db.query(Users).filter(Users.email == email).first()
+        if existing:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=f"User with email {email} already exists."
+            )
+
         hashed_password = argon2_context.hash(create_user_request.password)
 
         new_user = Users(email = email, hashed_password = hashed_password)

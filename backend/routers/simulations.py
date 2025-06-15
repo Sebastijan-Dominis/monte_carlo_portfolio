@@ -14,21 +14,21 @@ router = APIRouter(
 )
 
 class RequestMonteCarlo(BaseModel):
-    ticks: list[str] = Field(min_length=1)
+    tickers: list[str] = Field(min_length=1)
     distribution: list[float]
     distribution_type: Literal["random", "equal", "exact"]
     initial_portfolio: float = Field(gt=0)
 
     @model_validator(mode='after')
     def check_distribution_length(self):
-        if self.distribution_type == "exact" and len(self.distribution) != len(self.ticks):
-            raise ValueError("Length of distribution must match length of ticks")
+        if self.distribution_type == "exact" and len(self.distribution) != len(self.tickers):
+            raise ValueError("Length of distribution must match length of tickers")
         return self
 
     model_config = {
         "json_schema_extra": {
             "example": {
-                "ticks": ["TSLA", "GOOGL", "META"],
+                "tickers": ["TSLA", "GOOGL", "META"],
                 "distribution": [0.4, 0.3, 0.3],
                 "distribution_type": "exact",
                 "initial_portfolio": 10000

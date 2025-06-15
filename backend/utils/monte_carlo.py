@@ -8,7 +8,7 @@ import io
 import base64
 
 def monte_carlo(requested_data):
-    ticks = requested_data.ticks
+    tickers = requested_data.tickers
     distribution = requested_data.distribution
     distribution_type = requested_data.distribution_type
     initial_portfolio = requested_data.initial_portfolio
@@ -17,14 +17,14 @@ def monte_carlo(requested_data):
     start_date = end_date - dt.timedelta(days=1000)
 
     # Fetching data
-    def get_data(ticks, start_date, end_date):
-        closing_data = yf.download(ticks, start_date, end_date)["Close"]
+    def get_data(tickers, start_date, end_date):
+        closing_data = yf.download(tickers, start_date, end_date)["Close"]
         returns = closing_data.pct_change()
         mean_returns = returns.mean()
         cov_matrix = returns.cov()
         return mean_returns, cov_matrix
 
-    mean_returns, cov_matrix = get_data(ticks, start_date, end_date)
+    mean_returns, cov_matrix = get_data(tickers, start_date, end_date)
 
     # The distribution of a received portfolio
     weights = None
@@ -32,7 +32,7 @@ def monte_carlo(requested_data):
         weights = np.random.random(len(mean_returns))
         weights /= np.sum(weights)
     elif distribution_type == "equal":
-        weights = [1/len(ticks) for _ in range(len(ticks))]
+        weights = [1/len(tickers) for _ in range(len(tickers))]
     elif distribution_type == "exact":
         weights = np.array(distribution)
         weights = weights/weights.sum()
@@ -45,14 +45,14 @@ def monte_carlo(requested_data):
     # Timeframe for which we make predictions
     T = 100
 
-    mean_matrix = np.full(shape=(T, len(ticks)), fill_value=mean_returns)
+    mean_matrix = np.full(shape=(T, len(tickers)), fill_value=mean_returns)
     mean_matrix = mean_matrix.T
 
     portfolio_sims = np.full(shape=(T, mc_sims), fill_value=0.0)
 
     for m in range(mc_sims):
         # MC loops
-        Z = np.random.normal(size=(T, len(ticks)))
+        Z = np.random.normal(size=(T, len(tickers)))
         L = np.linalg.cholesky(cov_matrix)
         daily_returns = mean_matrix + np.inner(L, Z)
         portfolio_sims[:,m] = np.cumprod(np.inner(weights, daily_returns.T) + 1) * initial_portfolio

@@ -18,6 +18,7 @@ MAX_SETTINGS_PER_USER = 10
 
 @router.get("/all", status_code=status.HTTP_200_OK)
 async def get_all_settings_of_user(db: db_dependency, user: user_dependency):
+    print("test")
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed.")
     return db.query(PortfolioSettings).filter(PortfolioSettings.owner_id == user.get("id")).all()
@@ -43,7 +44,7 @@ async def update_settings(db: db_dependency, user: user_dependency, new_settings
     if existing_settings is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Settings not found.")
     
-    existing_settings.ticks = new_settings.ticks
+    existing_settings.tickers = new_settings.tickers
     existing_settings.distribution = new_settings.distribution
     existing_settings.distribution_type = new_settings.distribution_type
     existing_settings.initial_portfolio = new_settings.initial_portfolio
