@@ -115,87 +115,95 @@ function EditSettings() {
   return (
     <>
       {!editingSettings && !error && isLoggedIn && (
-        <div className="text-[#d2d2d2]">
-          <div className="mt-4 flex flex-col items-center justify-center">
-            <h2>Initial amount</h2>
-            <input
-              id="initial_portfolio"
-              type="number"
-              value={initialAmount}
-              onChange={(e) => setInitialAmount(Number(e.target.value))}
-              className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
-              placeholder="10000"
-            />
-          </div>
-          <div className="mt-2 flex flex-col items-center justify-center">
-            <h2>Distribution type</h2>
-            <select
-              id="distribution_type"
-              name="distributionType"
-              value={distributionType}
-              onChange={(e) => setDistributionType(e.target.value)}
-              className="w-32 rounded-md px-2 py-1 text-[#1d1d1d]"
-            >
-              <option value="random">Random</option>
-              <option value="equal">Equal</option>
-              <option value="exact">Exact</option>
-            </select>
-          </div>
-          <div className="mt-2 flex flex-col items-center justify-center">
-            <p>Tickers:</p>
-            <p>{tickers.join(", ")}</p>
-            <h2>Add ticker</h2>
-            <input
-              id="ticker"
-              type="text"
-              className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
-              value={tickerInput}
-              onChange={(e) => setTickerInput(e.target.value)}
-            />
-            <button
-              className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
-              onClick={handleAddTicker}
-            >
-              Add
-            </button>
-            <button
-              className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
-              onClick={handleDeleteTickers}
-            >
-              Delete tickers
-            </button>
-          </div>
-          <div className="mt-2 flex flex-col items-center justify-center">
-            <p>Distribution:</p>
-            <p>{distribution.join(", ")}</p>
-            <h2>Add distribution</h2>
-            <input
-              id="distribution"
-              type="text"
-              className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
-              value={distributionInput}
-              onChange={(e) => setDistributionInput(e.target.value)}
-            />
-            <button
-              className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
-              onClick={handleAddDistribution}
-            >
-              Add
-            </button>
-            <button
-              className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
-              onClick={handleDeleteDistribution}
-            >
-              Delete distribution
-            </button>
-          </div>
+        <>
           <button
-            className="mx-auto mt-8 block w-40 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e]"
-            onClick={handleEdit}
+            className="ml-2 text-[#d2d2d2]"
+            onClick={() => navigate("/settings")}
           >
-            Edit
+            &larr; Back
           </button>
-        </div>
+          <div className="text-[#d2d2d2]">
+            <div className="mt-4 flex flex-col items-center justify-center">
+              <h2>Initial amount</h2>
+              <input
+                id="initial_portfolio"
+                type="number"
+                value={initialAmount}
+                onChange={(e) => setInitialAmount(Number(e.target.value))}
+                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+                placeholder="10000"
+              />
+            </div>
+            <div className="mt-2 flex flex-col items-center justify-center">
+              <h2>Distribution type</h2>
+              <select
+                id="distribution_type"
+                name="distributionType"
+                value={distributionType}
+                onChange={(e) => setDistributionType(e.target.value)}
+                className="w-32 rounded-md px-2 py-1 text-[#1d1d1d]"
+              >
+                <option value="random">Random</option>
+                <option value="equal">Equal</option>
+                <option value="exact">Exact</option>
+              </select>
+            </div>
+            <div className="mt-2 flex flex-col items-center justify-center">
+              <p>Tickers:</p>
+              <p>{tickers.join(", ")}</p>
+              <h2>Add ticker</h2>
+              <input
+                id="ticker"
+                type="text"
+                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+                value={tickerInput}
+                onChange={(e) => setTickerInput(e.target.value)}
+              />
+              <button
+                className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                onClick={handleAddTicker}
+              >
+                Add
+              </button>
+              <button
+                className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                onClick={handleDeleteTickers}
+              >
+                Delete tickers
+              </button>
+            </div>
+            <div className="mt-2 flex flex-col items-center justify-center">
+              <p>Distribution:</p>
+              <p>{distribution.join(", ")}</p>
+              <h2>Add distribution</h2>
+              <input
+                id="distribution"
+                type="text"
+                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+                value={distributionInput}
+                onChange={(e) => setDistributionInput(e.target.value)}
+              />
+              <button
+                className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                onClick={handleAddDistribution}
+              >
+                Add
+              </button>
+              <button
+                className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                onClick={handleDeleteDistribution}
+              >
+                Delete distribution
+              </button>
+            </div>
+            <button
+              className="mx-auto mt-8 block w-40 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e]"
+              onClick={handleEdit}
+            >
+              Edit
+            </button>
+          </div>
+        </>
       )}
       {editingSettings && <Spinner />}
       {error && (

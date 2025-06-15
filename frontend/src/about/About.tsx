@@ -49,7 +49,7 @@ function About() {
           </a>
           .
         </p>
-        <img src={cash_illustration} alt="" />
+        <img src={cash_illustration} alt="cash illustration" />
       </div>
     </div>
   );
