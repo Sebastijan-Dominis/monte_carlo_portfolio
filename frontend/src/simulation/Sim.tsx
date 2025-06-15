@@ -120,13 +120,13 @@ function Sim() {
   }, [currentSettings]);
 
   return (
-    <>
+    <div className="md:text-lg lg:text-xl">
       {!url && !simulating && !error && (
         <div className="text-[#d2d2d2]">
-          <div className="mt-4 flex items-center justify-center">
+          <div className="mt-4 flex items-center justify-center md:mt-6 lg:mt-8 xl:mt-12">
             <p>How to use:</p>
             <Link
-              className="ml-4 h-6 w-6 rounded-full bg-[#d2d2d2] text-center text-[#1e1e1e]"
+              className="ml-4 h-6 w-6 content-center rounded-full bg-[#d2d2d2] text-center text-[#1e1e1e] md:h-8 md:w-8 lg:h-10 lg:w-10"
               to={"/instructions"}
             >
               ?
@@ -139,7 +139,7 @@ function Sim() {
               type="number"
               value={initialAmount}
               onChange={(e) => setInitialAmount(Number(e.target.value))}
-              className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+              className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
               placeholder="10000"
             />
           </div>
@@ -150,63 +150,63 @@ function Sim() {
               name="distributionType"
               value={distributionType}
               onChange={(e) => setDistributionType(e.target.value)}
-              className="w-32 rounded-md px-2 py-1 text-[#1d1d1d]"
+              className="w-56 rounded-md px-2 py-1 text-[#1d1d1d] sm:w-64 md:w-80 xl:w-96"
             >
               <option value="random">Random</option>
               <option value="equal">Equal</option>
               <option value="exact">Exact</option>
             </select>
           </div>
-          <div className="mt-2 flex flex-col items-center justify-center">
+          <div className="mt-4 flex flex-col items-center justify-center md:mt-8 lg:mt-16">
             <p>Tickers:</p>
-            <p>{tickers.join(", ")}</p>
-            <h2>Add ticker</h2>
+            <p className="max-w-[70dvw] text-center">{tickers.join(", ")}</p>
             <input
               id="ticker"
               type="text"
-              className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+              className="mt-1 h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e] sm:w-64 md:mt-2 md:w-80 lg:mt-4 xl:w-96"
               value={tickerInput}
               onChange={(e) => setTickerInput(e.target.value)}
             />
             <button
-              className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+              className="mt-2 w-56 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
               onClick={handleAddTicker}
             >
               Add
             </button>
             <button
-              className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+              className="mt-2 w-56 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
               onClick={handleDeleteTickers}
             >
               Delete tickers
             </button>
           </div>
-          <div className="mt-2 flex flex-col items-center justify-center">
+          <div className="mt-4 flex flex-col items-center justify-center md:mt-8 lg:mt-16">
             <p>Distribution:</p>
-            <p>{distribution.join(", ")}</p>
-            <h2>Add distribution</h2>
+            <p className="max-w-[70dvw] text-center">
+              {distribution.join(", ")}
+            </p>
             <input
               id="distribution"
               type="text"
-              className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+              className="mt-1 h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e] sm:w-64 md:mt-2 md:w-80 lg:mt-4 xl:w-96"
               value={distributionInput}
               onChange={(e) => setDistributionInput(e.target.value)}
             />
             <button
-              className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+              className="mt-2 w-56 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
               onClick={handleAddDistribution}
             >
               Add
             </button>
             <button
-              className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+              className="mt-2 w-56 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
               onClick={handleDeleteDistribution}
             >
               Delete distribution
             </button>
           </div>
           <button
-            className="mx-auto mt-8 block w-40 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e]"
+            className="mx-auto mt-8 block w-56 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
             onClick={run_monte_carlo}
           >
             Simulate
@@ -240,7 +240,7 @@ function Sim() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 

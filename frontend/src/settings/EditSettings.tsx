@@ -113,11 +113,11 @@ function EditSettings() {
   };
 
   return (
-    <>
+    <div className="md:mt-4 md:text-lg lg:mt-8 lg:text-xl xl:mt-12">
       {!editingSettings && !error && isLoggedIn && (
         <>
           <button
-            className="ml-2 text-[#d2d2d2]"
+            className="ml-2 text-[#d2d2d2] md:ml-6 lg:ml-8 xl:ml-10"
             onClick={() => navigate("/settings")}
           >
             &larr; Back
@@ -130,7 +130,7 @@ function EditSettings() {
                 type="number"
                 value={initialAmount}
                 onChange={(e) => setInitialAmount(Number(e.target.value))}
-                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
                 placeholder="10000"
               />
             </div>
@@ -141,63 +141,63 @@ function EditSettings() {
                 name="distributionType"
                 value={distributionType}
                 onChange={(e) => setDistributionType(e.target.value)}
-                className="w-32 rounded-md px-2 py-1 text-[#1d1d1d]"
+                className="w-32 rounded-md px-2 py-1 text-[#1d1d1d] sm:w-64 md:w-80 xl:w-96"
               >
                 <option value="random">Random</option>
                 <option value="equal">Equal</option>
                 <option value="exact">Exact</option>
               </select>
             </div>
-            <div className="mt-2 flex flex-col items-center justify-center">
+            <div className="mt-2 flex flex-col items-center justify-center md:mt-8 lg:mt-16">
               <p>Tickers:</p>
               <p>{tickers.join(", ")}</p>
               <h2>Add ticker</h2>
               <input
                 id="ticker"
                 type="text"
-                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e] sm:w-64 md:mt-2 md:w-80 lg:mt-4 xl:w-96"
                 value={tickerInput}
                 onChange={(e) => setTickerInput(e.target.value)}
               />
               <button
-                className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
                 onClick={handleAddTicker}
               >
                 Add
               </button>
               <button
-                className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
                 onClick={handleDeleteTickers}
               >
                 Delete tickers
               </button>
             </div>
-            <div className="mt-2 flex flex-col items-center justify-center">
+            <div className="mt-2 flex flex-col items-center justify-center md:mt-8 lg:mt-16">
               <p>Distribution:</p>
               <p>{distribution.join(", ")}</p>
               <h2>Add distribution</h2>
               <input
                 id="distribution"
                 type="text"
-                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
+                className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e] sm:w-64 md:mt-2 md:w-80 lg:mt-4 xl:w-96"
                 value={distributionInput}
                 onChange={(e) => setDistributionInput(e.target.value)}
               />
               <button
-                className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                className="mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
                 onClick={handleAddDistribution}
               >
                 Add
               </button>
               <button
-                className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e]"
+                className="mt-2 w-auto rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
                 onClick={handleDeleteDistribution}
               >
                 Delete distribution
               </button>
             </div>
             <button
-              className="mx-auto mt-8 block w-40 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e]"
+              className="mx-auto mt-8 block w-40 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96"
               onClick={handleEdit}
             >
               Edit
@@ -207,23 +207,28 @@ function EditSettings() {
       )}
       {editingSettings && <Spinner />}
       {error && (
-        <>
-          <button className="ml-2 text-[#d2d2d2]" onClick={() => setError("")}>
+        <div className="md:mt-4 md:text-lg lg:mt-8 lg:text-xl xl:mt-12 2xl:text-2xl">
+          <button
+            className="ml-2 text-[#d2d2d2] md:ml-6 lg:ml-8 xl:ml-10"
+            onClick={() => setError("")}
+          >
             &larr; Back
           </button>
           <div className="flex flex-col items-center gap-6 text-center text-[#d2d2d2]">
-            <h1 className="text-lg">An error occured</h1>
-            <p>{error}</p>
+            <h1 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl">
+              An error occured
+            </h1>
+            <p className="lg:mt-4 2xl:mt-8">{error}</p>
           </div>
-        </>
+        </div>
       )}
       {/* This should not happen anyway, but just in case... */}
       {!isLoggedIn && (
-        <p className="mt-4 text-center text-lg text-[#d2d2d2]">
+        <p className="mt-4 text-center text-lg text-[#d2d2d2] md:mt-8 md:text-xl lg:mt-12 lg:text-2xl xl:mt-16 xl:text-3xl">
           You are not logged in.
         </p>
       )}
-    </>
+    </div>
   );
 }
 

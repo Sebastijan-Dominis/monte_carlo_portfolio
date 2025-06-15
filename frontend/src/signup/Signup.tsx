@@ -70,13 +70,16 @@ function Signup() {
   return (
     <>
       {!isSigningUp && !error && (
-        <div className="flex h-[70dvh] flex-col justify-evenly text-[#d2d2d2]">
+        <div className="flex h-[70dvh] flex-col justify-evenly text-[#d2d2d2] md:text-lg lg:text-xl">
           <form
             onSubmit={handleSignup}
             className="flex flex-col items-center justify-center"
           >
-            <h1 className="text-2xl">Sign up</h1>
-            <label htmlFor="email" className="mt-4 text-lg">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl">Sign up</h1>
+            <label
+              htmlFor="email"
+              className="mt-4 text-lg md:mt-8 md:text-xl lg:text-2xl"
+            >
               Email
             </label>
             <input
@@ -89,7 +92,10 @@ function Signup() {
               className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
               autoComplete="email"
             />
-            <label htmlFor="password" className="mt-4 text-lg">
+            <label
+              htmlFor="password"
+              className="mt-4 text-lg md:mt-4 md:text-xl lg:text-2xl"
+            >
               Password
             </label>
             <input
@@ -102,7 +108,7 @@ function Signup() {
               className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
               autoComplete="new-password"
             />
-            <button className="mt-8 h-8 w-32 rounded-lg bg-[#d2d2d2]/90 text-sm text-[#1e1e1e]">
+            <button className="mt-8 h-8 w-32 rounded-lg bg-[#d2d2d2]/90 text-sm text-[#1e1e1e] md:mt-10 md:h-10 md:w-40 md:text-base lg:h-12 lg:w-48 lg:text-lg">
               Signup
             </button>
           </form>
@@ -121,15 +127,20 @@ function Signup() {
       )}
       {isSigningUp && <Spinner />}
       {error && (
-        <>
-          <button className="ml-2 text-[#d2d2d2]" onClick={() => setError("")}>
+        <div className="md:mt-4 md:text-lg lg:mt-8 lg:text-xl xl:text-2xl">
+          <button
+            className="ml-2 text-[#d2d2d2] md:ml-6 lg:ml-8 xl:ml-10"
+            onClick={() => setError("")}
+          >
             &larr; Back
           </button>
-          <div className="flex flex-col items-center gap-6 text-center text-[#d2d2d2]">
-            <h1 className="text-lg">An error occured</h1>
-            <p>{error}</p>
+          <div className="flex flex-col items-center gap-6 text-center text-[#d2d2d2] md:mt-4 lg:mt-8 xl:mt-12">
+            <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl">
+              An error occured
+            </h1>
+            <p className="lg:mt-4 xl:mt-8">{error}</p>
           </div>
-        </>
+        </div>
       )}
     </>
   );

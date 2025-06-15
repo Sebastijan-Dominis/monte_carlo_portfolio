@@ -1,13 +1,15 @@
-import monte_carlo_casino from "../assets/monte_carlo_casino.jpg";
+import monte_carlo_casino from "../assets/monte_carlo_casino.png";
 import mc_example from "../assets/mc_example.png";
 import ibm_logo from "../assets/ibm_logo.png";
 import cash_illustration from "../assets/cash_illustration.png";
 
 function About() {
   return (
-    <div className="text-[#d2d2d2]">
-      <h1 className="text-center text-xl">About</h1>
-      <div className="grid grid-cols-2 place-items-center gap-x-4 gap-y-8 px-4 pt-8 text-sm">
+    <div className="text-[#d2d2d2] md:mt-4 lg:mt-6 xl:mt-10">
+      <h1 className="text-center text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+        About
+      </h1>
+      <div className="grid grid-cols-2 place-items-center gap-x-4 gap-y-8 bg-[#1e1e1e] px-4 pb-4 pt-8 text-sm md:gap-x-12 md:px-12 md:pt-12 md:text-base lg:gap-x-20 lg:px-20 lg:pt-16 lg:text-lg xl:gap-x-32 xl:px-32 xl:pt-24 xl:text-xl 2xl:gap-x-48 2xl:px-48">
         <img src={monte_carlo_casino} alt="Monte Carlo casino" />
         <p>
           The Monte Carlo simulation was named after the famous gambling

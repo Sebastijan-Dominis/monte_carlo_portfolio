@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../spinner/Spinner";
 import { useAuth } from "../auth/AuthContext";
 import { useSettings } from "../settings_mc_context/SettingsContext";
+import SettingsBtn from "./SettingsBtn";
 
 interface SettingsType {
   id: number;
@@ -154,38 +155,18 @@ function Settings() {
     <>
       {!fetchingSettings && !error && isLoggedIn && (
         <>
-          <div className="mb-4 mt-2 flex justify-evenly">
-            <button
-              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
-              onClick={handleAdd}
-            >
-              Add
-            </button>
-            <button
-              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
-              onClick={handleUse}
-            >
-              Use
-            </button>
-            <button
-              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
-              onClick={handleEdit}
-            >
-              Edit
-            </button>
-            <button
-              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
+          <div className="mb-4 mt-2 flex justify-evenly md:mb-8 md:mt-6 lg:mb-12 lg:mt-10 xl:mt-14">
+            <SettingsBtn onClick={handleAdd}>Add</SettingsBtn>
+            <SettingsBtn onClick={handleUse}>Use</SettingsBtn>
+            <SettingsBtn onClick={handleEdit}>Edit</SettingsBtn>
+            <SettingsBtn onClick={handleDelete}>Delete</SettingsBtn>
           </div>
           <ul className="justify-self-center">
             {settings?.map((s) => (
               <li key={s.id}>
                 <div
                   onClick={() => handleSelect(s)}
-                  className={`mb-4 flex flex-col items-center rounded-xl px-4 py-2 ${
+                  className={`mb-4 flex flex-col items-center rounded-xl px-4 py-2 md:mb-4 lg:mb-8 ${
                     currentId === s.id
                       ? "bg-[#bbb] ring-4 ring-[#00D1B2]"
                       : "bg-[#d2d2d2]"
@@ -204,23 +185,25 @@ function Settings() {
       )}
       {fetchingSettings && <Spinner />}
       {error && (
-        <>
+        <div className="md:mt-4 md:text-lg lg:mt-8 lg:text-xl xl:mt-12 2xl:text-2xl">
           <button className="ml-2 text-[#d2d2d2]" onClick={() => setError("")}>
             &larr; Back
           </button>
           <div className="flex flex-col items-center gap-6 text-center text-[#d2d2d2]">
-            <h1 className="text-lg">An error occured</h1>
-            <p>{error}</p>
+            <h1 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl">
+              An error occured
+            </h1>
+            <p className="lg:mt-4 2xl:mt-8">{error}</p>
           </div>
-        </>
+        </div>
       )}
       {!fetchingSettings && !error && isLoggedIn && settings?.length === 0 && (
-        <p className="mt-4 text-center text-lg text-[#d2d2d2]">
+        <p className="mt-4 text-center text-lg text-[#d2d2d2] md:mt-8 md:text-xl lg:mt-12 lg:text-2xl xl:mt-16 xl:text-3xl">
           No settings found.
         </p>
       )}
       {!isLoggedIn && (
-        <p className="mt-4 text-center text-lg text-[#d2d2d2]">
+        <p className="mt-4 text-center text-lg text-[#d2d2d2] md:mt-8 md:text-xl lg:mt-12 lg:text-2xl xl:mt-16 xl:text-3xl">
           You are not logged in.
         </p>
       )}

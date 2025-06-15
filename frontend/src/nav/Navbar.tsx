@@ -17,12 +17,16 @@ function Navbar() {
     <div className="fixed left-0 right-0 top-0">
       <nav className="flex justify-between bg-[#00D1B2] px-2 py-4">
         <div>
-          <img src={monte_carlo_logo} alt="" className="h-6 w-6" />
+          <img
+            src={monte_carlo_logo}
+            alt=""
+            className="h-6 w-6 md:h-8 md:w-8 lg:h-10 lg:w-10 xl:h-12 xl:w-12"
+          />
         </div>
         <div className="flex gap-4">
           <NavBtn link="/about">About</NavBtn>
           <NavBtn link="/">Sim</NavBtn>
-          <NavBtn link="/settings">Stngs</NavBtn>
+          <NavBtn link="/settings">Settings</NavBtn>
         </div>
         <div className="flex gap-4">
           {!isLoggedIn && !isLoggingIn && <NavBtn link="/login">Login</NavBtn>}
@@ -31,7 +35,7 @@ function Navbar() {
           )}
           {isLoggedIn && (
             <button
-              className="h-6 w-12 content-center rounded-md bg-[#1e1e1e]/90 text-center text-xs text-[#d2d2d2]"
+              className="h-6 w-12 content-center rounded-md bg-[#1e1e1e]/90 text-center text-xs text-[#d2d2d2] md:h-8 md:w-16 md:text-sm lg:h-10 lg:w-20 lg:text-base xl:h-12 xl:w-24 xl:text-lg"
               onClick={handleLogout}
             >
               Logout
