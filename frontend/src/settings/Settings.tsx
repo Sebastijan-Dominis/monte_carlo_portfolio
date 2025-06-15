@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -20,13 +20,13 @@ function Settings() {
   const [fetchingSettings, setFetchingSettings] = useState(false);
   const [error, setError] = useState("");
   const [settings, setSettings] = useState<Array<SettingsType> | null>(null);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const { setCurrentSettings } = useSettings();
+  const { setCurrentSettings, setCurrentId, currentId } = useSettings();
 
   const navigate = useNavigate();
 
   const handleSelect = (s: SettingsType) => {
-    setSelectedId(s.id);
+    setCurrentId(s.id);
+    setCurrentId(s.id);
     const newSettings = {
       tickers: s.tickers,
       distribution_type: s.distribution_type,
@@ -36,29 +36,81 @@ function Settings() {
     setCurrentSettings(newSettings);
   };
 
-  const [usingSettings, setUsingSettings] = useState(false);
+  const usingSettings = useRef(false);
 
   const handleUse = () => {
-    if (!selectedId) {
+    if (!currentId) {
       alert("Please select which settings to use by clicking.");
       return;
     }
-    setUsingSettings(true);
+    usingSettings.current = true;
     navigate("/");
+  };
+
+  const handleAdd = () => {
+    navigate("/settings/add");
+  };
+
+  const handleEdit = () => {
+    if (!currentId) {
+      alert("Please select which settings to use by clicking.");
+      return;
+    }
+    usingSettings.current = true;
+    navigate("/settings/edit");
+  };
+
+  const handleDelete = async () => {
+    if (!isLoggedIn) return;
+    if (!currentId) {
+      alert("Please select which settings you want to delete first.");
+      return;
+    }
+    setFetchingSettings(true);
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/portfolio_settings/${currentId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          timeout: 15000,
+        }
+      );
+      if (response.status !== 204) {
+        throw new Error("Error deleting settings.");
+      }
+      navigate("/settings");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "API Error: ",
+          error?.response?.data?.detail ?? error?.message
+        );
+        setError(error?.response?.data?.detail ?? error?.message);
+        if (error?.response?.status === 401) {
+          logout();
+        }
+      } else {
+        console.error("Unknown Error: ", error);
+      }
+    } finally {
+      setFetchingSettings(false);
+    }
   };
 
   useEffect(() => {
     return () => {
-      if (!usingSettings) {
+      if (!usingSettings.current) {
         setCurrentSettings({
           initial_portfolio: 0,
           distribution_type: "random",
           tickers: [],
           distribution: [],
         });
+        setCurrentId(null);
       }
     };
-  }, [usingSettings, setCurrentSettings]);
+  }, [usingSettings, setCurrentSettings, setCurrentId]);
 
   useEffect(() => {
     const fetchSettings = async function () {
@@ -73,6 +125,9 @@ function Settings() {
             timeout: 15000,
           }
         );
+        if (response.status !== 200) {
+          throw new Error("Error fetching settings.");
+        }
         setSettings(response.data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -100,7 +155,10 @@ function Settings() {
       {!fetchingSettings && !error && isLoggedIn && (
         <>
           <div className="mb-4 mt-2 flex justify-evenly">
-            <button className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm">
+            <button
+              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
+              onClick={handleAdd}
+            >
               Add
             </button>
             <button
@@ -109,10 +167,16 @@ function Settings() {
             >
               Use
             </button>
-            <button className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm">
+            <button
+              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
+              onClick={handleEdit}
+            >
               Edit
             </button>
-            <button className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm">
+            <button
+              className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm"
+              onClick={handleDelete}
+            >
               Delete
             </button>
           </div>
@@ -122,7 +186,7 @@ function Settings() {
                 <div
                   onClick={() => handleSelect(s)}
                   className={`mb-4 flex flex-col items-center rounded-xl px-4 py-2 ${
-                    selectedId === s.id
+                    currentId === s.id
                       ? "bg-[#bbb] ring-4 ring-[#00D1B2]"
                       : "bg-[#d2d2d2]"
                   }`}

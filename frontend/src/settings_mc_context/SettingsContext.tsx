@@ -11,6 +11,8 @@ type CurrentSettings = {
 interface SettingsContextType {
   currentSettings: CurrentSettings;
   setCurrentSettings: React.Dispatch<React.SetStateAction<CurrentSettings>>;
+  currentId: number | null;
+  setCurrentId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -27,8 +29,12 @@ export const SettingsProvider = function ({ children }: SettingsProviderProps) {
     distribution: [],
   });
 
+  const [currentId, setCurrentId] = useState<number | null>(null);
+
   return (
-    <SettingsContext.Provider value={{ currentSettings, setCurrentSettings }}>
+    <SettingsContext.Provider
+      value={{ currentSettings, setCurrentSettings, currentId, setCurrentId }}
+    >
       {children}
     </SettingsContext.Provider>
   );
