@@ -14,6 +14,7 @@ const Login = lazy(() => import("./auth/Login"));
 const Sim = lazy(() => import("./simulation/Sim"));
 const Signup = lazy(() => import("./signup/Signup"));
 const Saved = lazy(() => import("./settings/Settings"));
+const About = lazy(() => import("./about/About"));
 
 const Instructions = lazy(() => import("./simulation/Instructions"));
 const AddSettings = lazy(() => import("./settings/AddSettings"));
@@ -69,6 +70,7 @@ function App() {
                       </PrivateRouteLoggedIn>
                     }
                   />
+                  <Route path="about" element={<About />} />
                 </Routes>
               </Suspense>
             </div>
