@@ -97,7 +97,7 @@ function Settings() {
 
   return (
     <>
-      {!fetchingSettings && !error && (
+      {!fetchingSettings && !error && isLoggedIn && (
         <>
           <div className="mb-4 mt-2 flex justify-evenly">
             <button className="w-14 rounded-lg bg-[#d2d2d2] px-2 py-1 text-sm">
@@ -150,8 +150,15 @@ function Settings() {
           </div>
         </>
       )}
-      {!fetchingSettings && !error && settings?.length === 0 && (
-        <p>No settings found.</p>
+      {!fetchingSettings && !error && isLoggedIn && settings?.length === 0 && (
+        <p className="mt-4 text-center text-lg text-[#d2d2d2]">
+          No settings found.
+        </p>
+      )}
+      {!isLoggedIn && (
+        <p className="mt-4 text-center text-lg text-[#d2d2d2]">
+          You are not logged in.
+        </p>
       )}
     </>
   );

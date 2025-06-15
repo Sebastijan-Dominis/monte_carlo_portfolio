@@ -80,23 +80,27 @@ function Signup() {
               Email
             </label>
             <input
+              id="email"
               name="email"
               type="email"
               placeholder="john_doe@gmail.com"
               value={formData.email}
               onChange={handleChange}
               className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
+              autoComplete="email"
             />
             <label htmlFor="password" className="mt-4 text-lg">
               Password
             </label>
             <input
+              id="password"
               name="password"
               type="password"
               placeholder="johndoe123"
               value={formData.password}
               onChange={handleChange}
               className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
+              autoComplete="new-password"
             />
             <button className="mt-8 h-8 w-32 rounded-lg bg-[#d2d2d2]/90 text-sm text-[#1e1e1e]">
               Signup

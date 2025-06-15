@@ -135,6 +135,7 @@ function Sim() {
           <div className="mt-4 flex flex-col items-center justify-center">
             <h2>Initial amount</h2>
             <input
+              id="initial_portfolio"
               type="number"
               value={initialAmount}
               onChange={(e) => setInitialAmount(Number(e.target.value))}
@@ -145,6 +146,7 @@ function Sim() {
           <div className="mt-2 flex flex-col items-center justify-center">
             <h2>Distribution type</h2>
             <select
+              id="distribution_type"
               name="distributionType"
               value={distributionType}
               onChange={(e) => setDistributionType(e.target.value)}
@@ -160,6 +162,7 @@ function Sim() {
             <p>{tickers.join(", ")}</p>
             <h2>Add ticker</h2>
             <input
+              id="ticker"
               type="text"
               className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
               value={tickerInput}
@@ -183,6 +186,7 @@ function Sim() {
             <p>{distribution.join(", ")}</p>
             <h2>Add distribution</h2>
             <input
+              id="distribution"
               type="text"
               className="h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e]"
               value={distributionInput}

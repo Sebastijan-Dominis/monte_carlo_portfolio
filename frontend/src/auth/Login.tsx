@@ -36,23 +36,27 @@ function Login() {
               Email
             </label>
             <input
+              id="email"
               name="email"
               type="email"
               placeholder="john_doe@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
+              autoComplete="email"
             />
             <label htmlFor="password" className="mt-4 text-lg">
               Password
             </label>
             <input
+              id="password"
               name="password"
               type="password"
               placeholder="johndoe123"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
+              autoComplete="current-password"
             />
             <button className="mt-8 h-8 w-32 rounded-lg bg-[#d2d2d2]/90 text-sm text-[#1e1e1e]">
               Login
