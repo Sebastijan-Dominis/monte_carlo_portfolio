@@ -12,7 +12,7 @@ import PrivateRouteLoggedIn from "./protected_routes/PrivateRouteLoggedIn";
 
 const Login = lazy(() => import("./auth/Login"));
 const Sim = lazy(() => import("./simulation/Sim"));
-const Signup = lazy(() => import("./signup/Signup"));
+const Signup = lazy(() => import("./auth/Signup"));
 const Saved = lazy(() => import("./settings/Settings"));
 const About = lazy(() => import("./about/About"));
 

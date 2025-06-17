@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "./AuthContext";
@@ -7,11 +7,11 @@ import ErrorDisplay from "../components/ErrorDisplay";
 import AuthForm from "./AuthForm";
 import { validateCredentials } from "./validateCredentials";
 
-function Login() {
+function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login, error, setError, isLoggingIn } = useAuth();
+  const { signup, isSigningUp, error, setError } = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -20,11 +20,11 @@ function Login() {
     }
   }, [navigate, error]);
 
-  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const valid = validateCredentials(email, password);
     if (!valid) return;
-    await login(email, password);
+    await signup(email, password);
   };
 
   useEffect(() => {
@@ -35,20 +35,20 @@ function Login() {
 
   return (
     <>
-      {!isLoggingIn && !error && (
+      {!isSigningUp && !error && (
         <AuthForm
           email={email}
           setEmail={setEmail}
           password={password}
           setPassword={setPassword}
-          handleMain={handleLogin}
-          purpose="login"
+          handleMain={handleSignup}
+          purpose="signup"
         />
       )}
-      {isLoggingIn && <Spinner />}
+      {isSigningUp && <Spinner />}
       {error && <ErrorDisplay error={error} setError={setError} />}
     </>
   );
 }
 
-export default Login;
+export default Signup;

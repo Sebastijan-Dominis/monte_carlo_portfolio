@@ -12,9 +12,11 @@ interface AuthContextType {
   isLoggedIn: boolean;
   email: string;
   isLoggingIn: boolean;
+  isSigningUp: boolean;
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
   login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -28,6 +30,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isSigningUp, setIsSigningUp] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -39,21 +42,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
     if (currEmail) setEmail(currEmail);
   }, []);
 
-  const validateInputs = (email: string, password: string) => {
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      alert("Please enter a valid email address.");
-      return false;
-    }
-    if (!password || password.length < 8 || password.length > 20) {
-      alert("Please enter a valid password.");
-      return false;
-    }
-    return true;
-  };
-
   const login = async (email: string, password: string) => {
-    const valid = validateInputs(email, password);
-    if (!valid) return;
     const formData = new FormData();
     formData.append("username", email);
     formData.append("password", password);
@@ -90,6 +79,38 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
     }
   };
 
+  const signup = async (email: string, password: string) => {
+    try {
+      setIsSigningUp(true);
+      const formData = new FormData();
+      formData.append("username", email);
+      formData.append("password", password);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/create-user`,
+        formData,
+        {
+          timeout: 15000,
+        }
+      );
+      if (response.status !== 201) {
+        throw new Error("Signup Failed.");
+      }
+      navigate("/login");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "API Error: ",
+          error?.response?.data?.detail ?? error?.message
+        );
+        setError(error?.response?.data?.detail ?? error?.message);
+      } else {
+        console.error("Unknown Error: ", error);
+      }
+    } finally {
+      setIsSigningUp(false);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -98,7 +119,17 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, email, isLoggingIn, error, setError, login, logout }}
+      value={{
+        isLoggedIn,
+        email,
+        isLoggingIn,
+        isSigningUp,
+        error,
+        setError,
+        login,
+        signup,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

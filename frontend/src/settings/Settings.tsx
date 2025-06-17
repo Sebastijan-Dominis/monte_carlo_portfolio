@@ -6,6 +6,8 @@ import Spinner from "../spinner/Spinner";
 import { useAuth } from "../auth/AuthContext";
 import { useSettings } from "../settings_mc_context/SettingsContext";
 import SettingsBtn from "./SettingsBtn";
+import SettingsException from "./SettingsException";
+import ErrorDisplay from "../components/ErrorDisplay";
 
 interface SettingsType {
   id: number;
@@ -184,29 +186,11 @@ function Settings() {
         </>
       )}
       {fetchingSettings && <Spinner />}
-      {error && (
-        <div className="md:mt-4 md:text-lg lg:mt-8 lg:text-xl xl:mt-12 2xl:text-2xl">
-          <button className="ml-2 text-[#d2d2d2]" onClick={() => setError("")}>
-            &larr; Back
-          </button>
-          <div className="flex flex-col items-center gap-6 text-center text-[#d2d2d2]">
-            <h1 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl">
-              An error occured
-            </h1>
-            <p className="lg:mt-4 2xl:mt-8">{error}</p>
-          </div>
-        </div>
-      )}
+      {error && <ErrorDisplay error={error} setError={setError} />}
       {!fetchingSettings && !error && isLoggedIn && settings?.length === 0 && (
-        <p className="mt-4 text-center text-lg text-[#d2d2d2] md:mt-8 md:text-xl lg:mt-12 lg:text-2xl xl:mt-16 xl:text-3xl">
-          No settings found.
-        </p>
+        <SettingsException purpose="noSettings" />
       )}
-      {!isLoggedIn && (
-        <p className="mt-4 text-center text-lg text-[#d2d2d2] md:mt-8 md:text-xl lg:mt-12 lg:text-2xl xl:mt-16 xl:text-3xl">
-          You are not logged in.
-        </p>
-      )}
+      {!isLoggedIn && <SettingsException purpose="loggedOut" />}
     </>
   );
 }
