@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { type FormEvent } from "react";
 
+const formElement = "mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]";
+const outlineElement =
+  "outline-none focus:ring focus:ring-offset-2 focus:ring-[#d2d2d2]";
 interface AuthFormProps {
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
@@ -40,7 +43,7 @@ function AuthForm({
           placeholder="john_doe@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
+          className={`${formElement} ${outlineElement}`}
           autoComplete="email"
         />
         <label
@@ -56,10 +59,12 @@ function AuthForm({
           placeholder="johndoe123"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 rounded-lg px-4 py-2 text-[#1e1e1e]"
+          className={`${formElement} ${outlineElement}`}
           autoComplete="current-password"
         />
-        <button className="mt-8 h-8 w-32 rounded-lg bg-[#d2d2d2]/90 text-sm text-[#1e1e1e] md:mt-10 md:h-10 md:w-40 md:text-base lg:h-12 lg:w-48 lg:text-lg">
+        <button
+          className={`mt-8 h-8 w-32 rounded-lg bg-[#d2d2d2]/90 text-sm text-[#1e1e1e] md:mt-10 md:h-10 md:w-40 md:text-base lg:h-12 lg:w-48 lg:text-lg ${outlineElement}`}
+        >
           {purpose === "login" ? "Login" : "Sign up"}
         </button>
       </form>
@@ -70,7 +75,7 @@ function AuthForm({
         </p>
         <Link
           to={purpose === "login" ? "/signup" : "/login"}
-          className="mx-auto my-2 block text-center font-bold text-[#d2d2d2]"
+          className={`mx-auto my-2 block text-center font-bold text-[#d2d2d2] ${outlineElement}`}
         >
           {purpose === "login" ? "Signup" : "Login"} &rarr;
         </Link>
