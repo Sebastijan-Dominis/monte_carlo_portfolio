@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Instructions() {
   return (
     <>
-      <div className="mx-8 mt-4 flex flex-col items-center gap-2 text-start text-sm text-[#d2d2d2] md:mx-28 md:mt-6 md:text-base lg:mx-40 lg:mt-8 lg:text-lg xl:mx-64 xl:mt-12 2xl:mx-96">
+      <div className="mx-8 flex flex-col items-center gap-2 text-start text-sm text-[#d2d2d2] md:mx-28 md:text-base lg:mx-40 lg:text-lg xl:mx-64 2xl:mx-96">
         <Link
           className="fixed left-2 md:left-4 lg:left-8 xl:left-16 xl:text-xl 2xl:left-32"
           to={"/"}

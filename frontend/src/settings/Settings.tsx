@@ -157,7 +157,7 @@ function Settings() {
     <>
       {!fetchingSettings && !error && isLoggedIn && (
         <>
-          <div className="mb-4 mt-2 flex justify-evenly md:mb-8 md:mt-6 lg:mb-12 lg:mt-10 xl:mt-14">
+          <div className="mb-4 flex justify-evenly md:mb-8 lg:mb-12">
             <SettingsBtn onClick={handleAdd}>Add</SettingsBtn>
             <SettingsBtn onClick={handleUse}>Use</SettingsBtn>
             <SettingsBtn onClick={handleEdit}>Edit</SettingsBtn>

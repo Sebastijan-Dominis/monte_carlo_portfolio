@@ -72,7 +72,7 @@ function MainForm({
         </button>
       )}
       {purpose === "sim" && (
-        <div className="mt-4 flex items-center justify-center text-[#d2d2d2] md:mt-6 lg:mt-8 xl:mt-12">
+        <div className="flex items-center justify-center text-[#d2d2d2]">
           <p>How to use:</p>
           <Link
             className="ml-4 h-6 w-6 content-center rounded-full bg-[#d2d2d2] text-center text-[#1e1e1e] md:h-8 md:w-8 lg:h-10 lg:w-10"

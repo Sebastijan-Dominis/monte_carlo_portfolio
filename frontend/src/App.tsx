@@ -34,7 +34,7 @@ function App() {
           <SettingsProvider>
             <div className="flex min-h-[100dvh] flex-col">
               <Navbar />
-              <div className="flex-1 pt-4">
+              <div className="flex-1 pt-4 md:pt-6 lg:pt-8">
                 <Suspense fallback={<Spinner />}>
                   <Routes>
                     <Route index element={<Sim />} />

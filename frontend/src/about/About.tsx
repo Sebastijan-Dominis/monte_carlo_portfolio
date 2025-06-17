@@ -5,7 +5,7 @@ import cash_illustration from "../assets/cash_illustration.png";
 
 function About() {
   return (
-    <div className="text-[#d2d2d2] md:mt-4 lg:mt-6 xl:mt-10">
+    <div className="text-[#d2d2d2]">
       <h1 className="text-center text-xl md:text-2xl lg:text-3xl xl:text-4xl">
         About
       </h1>

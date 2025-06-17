@@ -81,7 +81,7 @@ function AddSettings() {
   }
 
   return (
-    <div className="md:mt-4 md:text-lg lg:mt-8 lg:text-xl xl:mt-12">
+    <div className="md:text-lg lg:text-xl">
       {!error && !addingSettings && isLoggedIn && (
         <>
           <MainForm

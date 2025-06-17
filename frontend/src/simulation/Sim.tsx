@@ -106,7 +106,7 @@ function Sim() {
       {url && (
         <>
           <button
-            className="ml-2 text-[#d2d2d2] md:ml-6 md:mt-6 lg:ml-8 lg:mt-8 xl:ml-10 xl:mt-12"
+            className="ml-2 text-[#d2d2d2] md:ml-6 lg:ml-8 xl:ml-10"
             onClick={() => setUrl("")}
           >
             &larr; Back
