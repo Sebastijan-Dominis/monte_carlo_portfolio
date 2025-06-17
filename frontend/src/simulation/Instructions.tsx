@@ -30,6 +30,7 @@ function Instructions() {
           <a
             href="https://www.finance.yahoo.com"
             className="underline outline-none focus:ring focus:ring-[#d2d2d2] focus:ring-offset-2"
+            target="_blank"
           >
             here
           </a>
