@@ -5,20 +5,12 @@ function Footer() {
 
   return (
     <>
-      {isLoggedIn && (
-        <footer className="fixed bottom-2 left-1/2 w-[80dvw] -translate-x-1/2 text-center text-[#1e1e1e]">
-          Hello, investor!
-          <br />
-          You are logged in with {email}
-        </footer>
-      )}
-      {!isLoggedIn && (
-        <footer className="fixed bottom-2 left-1/2 w-[80dvw] -translate-x-1/2 text-center text-[#1e1e1e]">
-          Hello, investor!
-          <br />
-          Log in to save your portfolio settings!
-        </footer>
-      )}
+      <footer className="overflow-x-hidden p-4 text-center text-xs text-[#1e1e1e] md:text-sm lg:text-base">
+        Hello, investor!
+        <br />
+        {isLoggedIn && `You are logged in with ${email}`}
+        {!isLoggedIn && "Log in to save your portfolio settings!"}
+      </footer>
     </>
   );
 }

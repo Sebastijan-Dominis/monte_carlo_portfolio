@@ -19,6 +19,7 @@ const About = lazy(() => import("./about/About"));
 const Instructions = lazy(() => import("./simulation/Instructions"));
 const AddSettings = lazy(() => import("./settings/AddSettings"));
 const EditSettings = lazy(() => import("./settings/EditSettings"));
+const NotFound = lazy(() => import("./not_found/NotFound"));
 
 function App() {
   return (
@@ -31,50 +32,53 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <SettingsProvider>
-            <Navbar />
-            <div className="h-[88dvh] overflow-y-scroll pt-16">
-              <Suspense fallback={<Spinner />}>
-                <Routes>
-                  <Route index element={<Sim />} />
-                  <Route
-                    path="login"
-                    element={
-                      <PrivateRouteLoggedOut>
-                        <Login />
-                      </PrivateRouteLoggedOut>
-                    }
-                  />
-                  <Route
-                    path="signup"
-                    element={
-                      <PrivateRouteLoggedOut>
-                        <Signup />
-                      </PrivateRouteLoggedOut>
-                    }
-                  />
-                  <Route path="instructions" element={<Instructions />} />
-                  <Route path="settings" element={<Saved />} />
-                  <Route
-                    path="settings/add"
-                    element={
-                      <PrivateRouteLoggedIn>
-                        <AddSettings />
-                      </PrivateRouteLoggedIn>
-                    }
-                  />
-                  <Route
-                    path="settings/edit"
-                    element={
-                      <PrivateRouteLoggedIn>
-                        <EditSettings />
-                      </PrivateRouteLoggedIn>
-                    }
-                  />
-                  <Route path="about" element={<About />} />
-                </Routes>
-              </Suspense>
+            <div className="flex min-h-[100dvh] flex-col">
+              <Navbar />
+              <div className="flex-1 pt-4">
+                <Suspense fallback={<Spinner />}>
+                  <Routes>
+                    <Route index element={<Sim />} />
+                    <Route
+                      path="login"
+                      element={
+                        <PrivateRouteLoggedOut>
+                          <Login />
+                        </PrivateRouteLoggedOut>
+                      }
+                    />
+                    <Route
+                      path="signup"
+                      element={
+                        <PrivateRouteLoggedOut>
+                          <Signup />
+                        </PrivateRouteLoggedOut>
+                      }
+                    />
+                    <Route path="instructions" element={<Instructions />} />
+                    <Route path="settings" element={<Saved />} />
+                    <Route
+                      path="settings/add"
+                      element={
+                        <PrivateRouteLoggedIn>
+                          <AddSettings />
+                        </PrivateRouteLoggedIn>
+                      }
+                    />
+                    <Route
+                      path="settings/edit"
+                      element={
+                        <PrivateRouteLoggedIn>
+                          <EditSettings />
+                        </PrivateRouteLoggedIn>
+                      }
+                    />
+                    <Route path="about" element={<About />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
+              </div>
+              <Footer />
             </div>
-            <Footer />
           </SettingsProvider>
         </AuthProvider>
       </BrowserRouter>

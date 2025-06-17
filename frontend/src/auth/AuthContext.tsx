@@ -82,13 +82,11 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
   const signup = async (email: string, password: string) => {
     try {
       setIsSigningUp(true);
-      const formData = new FormData();
-      formData.append("username", email);
-      formData.append("password", password);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/create-user`,
-        formData,
+        { email, password },
         {
+          headers: { "Content-Type": "application/json" },
           timeout: 15000,
         }
       );
@@ -144,4 +142,5 @@ function useAuth(): AuthContextType {
   return context;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { useAuth };

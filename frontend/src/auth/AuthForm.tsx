@@ -24,7 +24,9 @@ function AuthForm({
         onSubmit={handleMain}
         className="flex flex-col items-center justify-center"
       >
-        <h1 className="text-2xl md:text-3xl lg:text-4xl">Login</h1>
+        <h1 className="text-2xl md:text-3xl lg:text-4xl">
+          {purpose === "login" ? "Login" : "Signup"}
+        </h1>
         <label
           htmlFor="email"
           className="mt-4 text-lg md:mt-8 md:text-xl lg:text-2xl"
@@ -58,7 +60,7 @@ function AuthForm({
           autoComplete="current-password"
         />
         <button className="mt-8 h-8 w-32 rounded-lg bg-[#d2d2d2]/90 text-sm text-[#1e1e1e] md:mt-10 md:h-10 md:w-40 md:text-base lg:h-12 lg:w-48 lg:text-lg">
-          Login
+          {purpose === "login" ? "Login" : "Sign up"}
         </button>
       </form>
       <div className="flex flex-col">
@@ -70,7 +72,7 @@ function AuthForm({
           to={purpose === "login" ? "/signup" : "/login"}
           className="mx-auto my-2 block text-center font-bold text-[#d2d2d2]"
         >
-          Signup &rarr;
+          {purpose === "login" ? "Signup" : "Login"} &rarr;
         </Link>
       </div>
     </div>
