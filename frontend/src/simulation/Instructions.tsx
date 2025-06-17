@@ -5,7 +5,7 @@ function Instructions() {
     <>
       <div className="mx-8 flex flex-col items-center gap-2 text-start text-sm text-[#d2d2d2] md:mx-28 md:text-base lg:mx-40 lg:text-lg xl:mx-64 2xl:mx-96">
         <Link
-          className="fixed left-2 md:left-4 lg:left-8 xl:left-16 xl:text-xl 2xl:left-32"
+          className="fixed left-2 outline-none focus:ring focus:ring-[#d2d2d2] focus:ring-offset-2 md:left-4 lg:left-8 xl:left-16 xl:text-xl 2xl:left-32"
           to={"/"}
         >
           &larr; Go back
@@ -27,7 +27,10 @@ function Instructions() {
           Tickers = tickers used to represent the stock, ETF, or cryptocurrency
           of choice, according to Yahoo finance (e.g. TSLA for the Tesla stock).
           Non-American stocks may need a suffix. Find all tickers{" "}
-          <a href="https://www.finance.yahoo.com" className="underline">
+          <a
+            href="https://www.finance.yahoo.com"
+            className="underline outline-none focus:ring focus:ring-[#d2d2d2] focus:ring-offset-2"
+          >
             here
           </a>
           .

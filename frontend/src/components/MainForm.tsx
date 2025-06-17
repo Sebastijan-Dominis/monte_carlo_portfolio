@@ -74,7 +74,7 @@ function MainForm({
     <>
       {purpose === "settings" && (
         <button
-          className="ml-2 text-[#d2d2d2] md:ml-6 lg:ml-8 xl:ml-10"
+          className={`ml-2 text-[#d2d2d2] md:ml-6 lg:ml-8 xl:ml-10 ${outlineElement}`}
           onClick={() => navigate("/settings")}
         >
           &larr; Back

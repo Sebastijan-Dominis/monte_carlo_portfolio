@@ -46,7 +46,10 @@ function About() {
           don't have to manually type them each time you run an MC simulation.
           Make sure to use the tickers that align with those from yahoo, which
           can be found{" "}
-          <a href="https://www.finance.yahoo.com" className="underline">
+          <a
+            href="https://www.finance.yahoo.com"
+            className="underline outline-none focus:ring focus:ring-[#d2d2d2] focus:ring-offset-2"
+          >
             here
           </a>
           .
