@@ -27,12 +27,12 @@ function Navbar() {
         <NavBtn link="/">Sim</NavBtn>
         <NavBtn link="/settings">Settings</NavBtn>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 outline-none focus:ring focus:ring-[#1e1e1e]">
         {!isLoggedIn && !isLoggingIn && <NavBtn link="/login">Login</NavBtn>}
         {!isLoggedIn && !isLoggingIn && <NavBtn link="/signup">Signup</NavBtn>}
         {isLoggedIn && (
           <button
-            className="h-6 w-12 content-center rounded-md bg-[#1e1e1e]/90 text-center text-xs text-[#d2d2d2] md:h-8 md:w-16 md:text-sm lg:h-10 lg:w-20 lg:text-base xl:h-12 xl:w-24 xl:text-lg"
+            className="h-6 w-12 content-center rounded-md bg-[#1e1e1e]/90 text-center text-xs text-[#d2d2d2] outline-none focus:ring focus:ring-[#1e1e1e] md:h-8 md:w-16 md:text-sm lg:h-10 lg:w-20 lg:text-base xl:h-12 xl:w-24 xl:text-lg"
             onClick={handleLogout}
           >
             Logout
