@@ -38,5 +38,3 @@ dist/
 # Local sqlite database
 
 .dockerignore
-Dockerfile
-Dockerfile.prod
