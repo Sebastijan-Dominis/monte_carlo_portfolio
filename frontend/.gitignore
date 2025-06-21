@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 .env
 *.env
+
+.dockerignore
+
+Dockerfile
+Dockerfile.prod
