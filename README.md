@@ -65,6 +65,7 @@ npm run dev
 
 - SECRET_KEY=your-secret-key-for-jwt
 - ALGORITHM=algorithm-of-your-choice-for-jwt
+- API_URL=url-to-frontend
 
 option 1:
 
@@ -76,7 +77,7 @@ option 2:
 - DB_URL=postgresql://user:password@localhost/mydb
 - DEPLOYMENT_ENVIRONMENT=PRODUCTION
 
-- API_URL=url-to-frontend
+#### extra notes
 
 - going with the sqlite option will automatically create an sqlite database within your backend folder
 - if opting for postgresql, make sure to create an actual database locally or remotely, run it, and use a valid url to connect to it (should be defined in the DB_URL environment variable)
