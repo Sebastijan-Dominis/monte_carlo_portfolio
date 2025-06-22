@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 import models
-from database import engine
+from database import engine, SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
+from sqlalchemy import text
 
 from routers.simulations import router as simulations_router
 from routers.auth import router as auth_router
@@ -30,3 +31,12 @@ for router in routers:
 @app.get("/")
 async def health_check():
     return {"Healthy": 200}
+
+@app.get("/health")
+def db_health_check():
+    try:
+        with SessionLocal() as db:
+            db.execute(text("SELECT 1"))
+        return {"status": "ok"}
+    except Exception as e:
+        return {"status": "db_error", "detail": str(e)}

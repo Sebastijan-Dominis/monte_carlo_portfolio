@@ -43,6 +43,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    console.log(import.meta.env.VITE_API_URL);
     const formData = new FormData();
     formData.append("username", email);
     formData.append("password", password);
