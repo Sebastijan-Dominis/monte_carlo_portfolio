@@ -35,7 +35,7 @@ function Sim() {
         {
           responseType: "blob",
           headers: { "Content-Type": "application/json" },
-          timeout: 30000,
+          timeout: 120000,
         }
       );
       if (response.status !== 200) {
