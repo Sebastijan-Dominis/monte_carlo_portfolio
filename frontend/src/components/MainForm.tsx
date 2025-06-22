@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // common styles
 const addDelete =
-  "mt-2 w-24 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96";
+  "mt-2 h-8 w-56 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96";
 const innerContainer = "flex flex-col items-center justify-center";
 const chooseArray =
   "h-8 w-56 rounded-lg px-2 py-1 text-[#1e1e1e] sm:w-64 md:mt-2 md:w-80 lg:mt-4 xl:w-96";
@@ -110,7 +110,7 @@ function MainForm({
             name="distributionType"
             value={distributionType}
             onChange={(e) => setDistributionType(e.target.value)}
-            className={`w-32 rounded-md px-2 py-1 text-[#1d1d1d] sm:w-64 md:w-80 xl:w-96 ${outlineElement}`}
+            className={`h-8 w-56 rounded-md px-2 py-1 text-[#1d1d1d] sm:w-64 md:w-80 xl:w-96 ${outlineElement}`}
           >
             <option value="random">Random</option>
             <option value="equal">Equal</option>
@@ -166,7 +166,7 @@ function MainForm({
           </button>
         </div>
         <button
-          className={`mx-auto mt-8 block w-40 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96 ${outlineElement}`}
+          className={`mx-auto mt-8 block h-8 w-56 rounded-lg bg-[#d2d2d2] px-2 py-1 text-center font-bold text-[#1e1e1e] sm:w-64 md:w-80 xl:w-96 ${outlineElement}`}
           onClick={handleMainEvent}
         >
           {mainBtnText}
