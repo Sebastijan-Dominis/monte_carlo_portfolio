@@ -102,4 +102,5 @@ async def delete_user(db: db_dependency, user_id: int = Path(ge=1)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
     db.delete(user)
     db.commit()
+    return {"message": "User with id {user_id} successfully deleted."}
 #------------------------------------------------------------
