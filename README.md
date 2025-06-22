@@ -63,18 +63,20 @@ npm run dev
 
 ### backend
 
-SECRET_KEY=your-secret-key-for-jwt
-ALGORITHM=algorithm-of-your-choice-for-jwt
+- SECRET_KEY=your-secret-key-for-jwt
+- ALGORITHM=algorithm-of-your-choice-for-jwt
 
 option 1:
-DB_URL=sqlite:///./mydb
-DEPLOYMENT_ENVIRONMENT=DEV
+
+- DB_URL=sqlite:///./mydb
+- DEPLOYMENT_ENVIRONMENT=DEV
 
 option 2:
-DB_URL=postgresql://user:password@localhost/mydb
-DEPLOYMENT_ENVIRONMENT=PRODUCTION
 
-API_URL=url-to-frontend
+- DB_URL=postgresql://user:password@localhost/mydb
+- DEPLOYMENT_ENVIRONMENT=PRODUCTION
+
+- API_URL=url-to-frontend
 
 - going with the sqlite option will automatically create an sqlite database within your backend folder
 - if opting for postgresql, make sure to create an actual database locally or remotely, run it, and use a valid url to connect to it (should be defined in the DB_URL environment variable)
@@ -82,9 +84,9 @@ API_URL=url-to-frontend
 
 ### frontend
 
-VITE_API_URL=url-to-backend
-VITE_API_PORT=8000  
-VITE_PORT=5173
+- VITE_API_URL=url-to-backend
+- VITE_API_PORT=8000
+- VITE_PORT=5173
 
 ## Deployment
 
@@ -145,7 +147,7 @@ Most common error:
 - `/simulations/user/{settings_id}`
 
 - parameters:
-  settings_id: integer, required
+  **settings_id: integer, required**
 
 This endpoint runs the MC simulation with settings predefined by the logged-in user and returns an image (a graph).
 
@@ -211,7 +213,7 @@ Successful response: 200
 - `/auth/delete-user/{user_id}`
 
 - parameters:
-  user_id: integer
+  **user_id: integer**
 
 This endpoint is used for deleting a user by their id, and is not meant to be called from frontend. It returns {"message": "User with id {user_id} successfully deleted."}.
 
@@ -275,7 +277,7 @@ Most common errors:
 - `/portfolio_settings/update/{settings_id}`
 
 - parameters:
-  settings_id: integer
+  **settings_id: integer**
 
 - example of a request body:
   {
@@ -308,7 +310,7 @@ Most common errors:
 - `/portfolio_settings/{settings_id}`
 
 - parameters:
-  settings_id: integer
+  **settings_id: integer**
 
 This endpoint is used for deleting an instance of portfolio settings that belong to a logged-in user. It returns {"message": "Success"}.
 
