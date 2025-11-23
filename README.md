@@ -1,5 +1,16 @@
 # 💹 Monte Carlo Portfolio
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Quick Start (Local)](#quick-start-local)
+- [Environment variables](#environment-variables)
+- [API Reference (summary)](#api-reference-summary)
+- [Database Schema (reference)](#database-schema-reference)
+- [Screenshots](#screenshots)
+- [License](#license)
+
 ## Overview
 
 Monte Carlo Portfolio is a web app for running Monte Carlo simulations on user-defined portfolios (stocks, ETFs, cryptocurrencies). Users specify tickers, an allocation distribution, and an initial portfolio value. Registered users can save their settings for reuse. The app uses historical price data (default: last 1000 days) to estimate portfolio trajectories over a future window (default: 100 days). This tool is educational and intended to help explore possible outcomes — it is not financial advice.
@@ -28,15 +39,30 @@ cd monte_carlo_portfolio
 
 ### 2. Backend
 
+#### Navigate to backend
 ```bash
 cd backend
+```
+
+#### Create a virtual environment
+```bash
+conda create -n monte-carlo-portfolio python=3.12
+```
+
+#### Install the requirements
+```bash
+conda activate monte-carlo-portfolio
 pip install -r requirements.txt
-# configure environment variables (see `.env.example`)
+```
+
+#### Configure the environment variables (see `.env.example`)
+
+#### Launch the backend server
+```bash
 uvicorn main:app --reload
 ```
 
-Optional Docker run:
-
+#### Optional Docker run:
 ```bash
 docker build -t monte-carlo-backend .
 docker run -p 8000:8000 monte-carlo-backend
@@ -44,10 +70,20 @@ docker run -p 8000:8000 monte-carlo-backend
 
 ### 3. Frontend
 
+#### Navigate to frontend
 ```bash
 cd ../frontend
+```
+
+#### Install the dependencies
+```bash
 npm install
-# configure environment variables (see `.env.example`)
+```
+
+#### Configure the environment variables (see `.env.example`)
+
+#### Run the frontend server
+```
 npm run dev
 ```
 
@@ -71,18 +107,12 @@ Notes:
 
 - Using SQLite (`sqlite:///./mydb`) is convenient for local development; PostgreSQL is recommended for production.
 
-## Deployment
+## API Reference (summary)
 
-- Database: Render PostgreSQL (or other hosted Postgres)
-- Backend: Render (Docker optional). Configure environment variables in the Render dashboard.
-- Frontend: Vercel — point to the GitHub repo and set `VITE_API_URL` to your backend URL.
-
-Health endpoints (backend):
+### Health:
 
 - `/` — general health
 - `/health` — checks DB connectivity
-
-## API Reference (summary)
 
 ### Simulations
 
@@ -158,12 +188,11 @@ CREATE TABLE portfolio_settings (
 
 ![About](screenshots/monte-carlo-7.png)
 
-## Contributing
-- Improvements and bug fixes welcome. Open an issue or submit a pull request with a clear description of the change.
-
 ## License
 - This repository includes a `LICENSE` file — please review it for terms of reuse.
 
+**Contributing**
+- Improvements and bug fixes welcome. Open an issue or submit a pull request with a clear description of the change.
+
 **Contact / Author**
 - Author: repository owner (see repository metadata).
-
