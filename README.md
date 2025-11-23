@@ -1,379 +1,169 @@
-# 💹 Monte Carlo Portfolio 💹
+# 💹 Monte Carlo Portfolio
 
-## 🚀 Overview
+## Overview
 
-This web application allows users to run the Monte Carlo simulation on a portfolio of choice. They can choose which stocks, ETFs, and/or cryptocurrencies to include by adding their respective tickers, which can be found on Yahoo finance. Users also determine the distribution of money within a given portfolio, as well as the amount of money itself. Registered users can save settings for running the Monte Carlo simulation, so that they don't have to re-enter them each time they want to run the simulation again. This application is aimed towards anyone thinking about, or having invested money into stocks, ETFs, and/or cryptocurrencies. It helps these individuals estimate how they can expect their portfolio to change over the next 100 days, based on the past 1000 days. While predicting the markets is ultimately impossible, tools like this can aid investors in deciding what to do with their money.
+Monte Carlo Portfolio is a web app for running Monte Carlo simulations on user-defined portfolios (stocks, ETFs, cryptocurrencies). Users specify tickers, an allocation distribution, and an initial portfolio value. Registered users can save their settings for reuse. The app uses historical price data (default: last 1000 days) to estimate portfolio trajectories over a future window (default: 100 days). This tool is educational and intended to help explore possible outcomes — it is not financial advice.
 
-## 🧱 Tech Stack
+## Tech Stack
 
-- **Frontend:** React (TypeScript), Vite
-- **Backend:** FastAPI
-- **Database:** PostgreSQL
-- **Deployment:**
-  - Frontend: Vercel
-  - Backend: Render
-  - DB: Render PostgreSQL
+- Frontend: React (TypeScript), Vite
+- Backend: FastAPI (Python)
+- Database: PostgreSQL (or SQLite for local development)
+- Deployment: Frontend on Vercel, Backend & DB on Render
 
-## 🛠️ Local Development Setup
+## Quick Start (Local)
 
 ### Prerequisites
 
 - Node.js
 - Python 3.12+
 - Docker (optional)
-- sqlite (installed with requirements) or PostgreSQL (local or Docker)
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/Sebastijan-Dominis/monte_carlo_portfolio.git
 cd monte_carlo_portfolio
 ```
 
-### 2. Set up backend
+### 2. Backend
 
 ```bash
 cd backend
 pip install -r requirements.txt
+# configure environment variables (see `.env.example`)
+uvicorn main:app --reload
 ```
 
-- define .env variables, as described in .env.example
-- optionally:
+Optional Docker run:
 
 ```bash
-docker build -t your-backend .
-docker run -p 8000:8000 your-backend
+docker build -t monte-carlo-backend .
+docker run -p 8000:8000 monte-carlo-backend
 ```
 
-### 3. Set up frontend
+### 3. Frontend
 
 ```bash
-cd ..
-cd frontend
+cd ../frontend
 npm install
-```
-
-- define .env variables, as described in .env.example
-
-```bash
+# configure environment variables (see `.env.example`)
 npm run dev
 ```
 
 ## Environment variables
 
-### backend
+Backend (examples):
 
-- SECRET_KEY=your-secret-key-for-jwt
-- ALGORITHM=algorithm-of-your-choice-for-jwt
-- API_URL=url-to-frontend
+- `SECRET_KEY` — JWT secret
+- `ALGORITHM` — JWT algorithm (e.g. `HS256`)
+- `API_URL` — frontend URL
+- `DB_URL` — database connection string (e.g. `sqlite:///./mydb` or `postgresql://user:pass@host/dbname`)
+- `DEPLOYMENT_ENVIRONMENT` — `DEV` or `PRODUCTION`
 
-option 1:
+Frontend (examples):
 
-- DB_URL=sqlite:///./mydb
-- DEPLOYMENT_ENVIRONMENT=DEV
+- `VITE_API_URL` — backend base URL
+- `VITE_API_PORT` — backend port (default: `8000`)
+- `VITE_PORT` — frontend port (default: `5173`)
 
-option 2:
+Notes:
 
-- DB_URL=postgresql://user:password@localhost/mydb
-- DEPLOYMENT_ENVIRONMENT=PRODUCTION
-
-#### extra notes
-
-- going with the sqlite option will automatically create an sqlite database within your backend folder
-- if opting for postgresql, make sure to create an actual database locally or remotely, run it, and use a valid url to connect to it (should be defined in the DB_URL environment variable)
-- using sqlite is recommended for development and local use (easy to use), while postgresql is recommended for deployment
-
-### frontend
-
-- VITE_API_URL=url-to-backend
-- VITE_API_PORT=8000
-- VITE_PORT=5173
+- Using SQLite (`sqlite:///./mydb`) is convenient for local development; PostgreSQL is recommended for production.
 
 ## Deployment
 
-Database (Render PostgreSQL)
+- Database: Render PostgreSQL (or other hosted Postgres)
+- Backend: Render (Docker optional). Configure environment variables in the Render dashboard.
+- Frontend: Vercel — point to the GitHub repo and set `VITE_API_URL` to your backend URL.
 
-- Hosted PostgreSQL instance
+Health endpoints (backend):
 
-Backend (Render)
+- `/` — general health
+- `/health` — checks DB connectivity
 
-- Dockerized (optional) FastAPI deployed on Render
-- Add environment variables via Render dashboard
-- Use the appropriate url from database deployment to connect backend to the database by setting the DB_URL environment variable to that value
-- General health check route: /
-- Health check route to check the connection to the database: /health
-
-Frontend (Vercel)
-
-- Deployed to Vercel from GitHub repository
-- Set environment variables - most importantly, set VITE_API_URL to the appropriate value that connects frontend to the backend on Render
-
-- In Backend on Render, change the API_URL variable to enable connection to the frontend
-
-## API Documentation
+## API Reference (summary)
 
 ### Simulations
 
-#### Run Monte Carlo
+- `POST /simulations/` — run a Monte Carlo simulation.
+  - Body example:
+    ```json
+    {
+      "distribution": [0.4, 0.3, 0.3],
+      "distribution_type": "exact",
+      "initial_portfolio": 10000,
+      "tickers": ["TSLA", "GOOGL", "META"]
+    }
+    ```
+  - Returns: 201 and an image (graph) of simulated outcomes.
 
-- `/simulations/`
-- no parameters
-- example of a request body:
-  {
-  "distribution": [
-  0.4,
-  0.3,
-  0.3
-  ],
-  "distribution_type": "exact",
-  "initial_portfolio": 10000,
-  "tickers": [
-  "TSLA",
-  "GOOGL",
-  "META"
-  ]
-  }
+- `POST /simulations/user/{settings_id}` — run simulation using a user's saved settings.
 
-This endpoint runs the MC simulation and returns an image (a graph).
+### Auth
 
-Successful response: 201
+- `POST /auth/create-user` — create a new user (email + password). Returns 201 on success.
+- `POST /auth/authorize` — obtain JWT (form data with `username` and `password`). Returns access token.
+- `GET /auth/all-users` — list users (admin/internal use).
+- `DELETE /auth/delete-user/{user_id}` — delete user (admin/internal use).
 
-Most common error:
+### Portfolio Settings
 
-- 422: Validation error
-- triggered in frontend in the "Sim" section
+- `GET /portfolio_settings/all` — user-specific saved settings
+- `POST /portfolio_settings/add` — add new settings
+- `PUT /portfolio_settings/update/{settings_id}` — update settings
+- `DELETE /portfolio_settings/{settings_id}` — delete settings
+- `GET /portfolio_settings/` — fetch all settings (admin/internal use)
 
-#### Run Monte Carlo User
+Refer to the source `backend/routers/` for full request/response details and validation rules.
 
-- `/simulations/user/{settings_id}`
+## Database Schema (reference)
 
-- parameters:
-  **settings_id: integer, required**
+Example SQL used to create the core tables:
 
-This endpoint runs the MC simulation with settings predefined by the logged-in user and returns an image (a graph).
-
-Successful response: 201
-
-Most common errors:
-
-- 422: Validation error
-- 404: Settings not found.
-
-### auth
-
-#### Create User
-
-- `/auth/create-user`
-
-- no parameters
-
-- example of a request body:
-  {
-  "email": "john_doe@gmail.com",
-  "password": "johndoe123"
-  }
-
-This endpoint creates a new user, and adds their email and hashed password (using argon2 for hashing) to the database, assuming that the user with this email does not already exist. It returns {"message": "User successfully created"}.
-
-Successful response: 201
-
-Most common errors:
-
-- 422: Validation error
-- 409: User with email {email} already exists.
-- 500: User creation failed: {error}
-
-#### Authorize User
-
-- `/auth/authorize`
-
-- no parameters
-
-Request body expects form data. Email should be used as "username".
-
-This endpoint is used for logging in the user and assigning them a JWT, which expires in 60 minutes of no action. It returns {"access_token": token, "token_type": "bearer"}.
-
-Successful response: 200
-
-Most common errors:
-
-- 422: Validation error
-
-#### Read Users
-
-- `/auth/all-users`
-
-- no parameters
-
-This endpoint is used for reading all of the users, and is not meant to be called from frontend. It returns a list of all of the registered users.
-
-Successful response: 200
-
-#### Delete User
-
-- `/auth/delete-user/{user_id}`
-
-- parameters:
-  **user_id: integer**
-
-This endpoint is used for deleting a user by their id, and is not meant to be called from frontend. It returns {"message": "User with id {user_id} successfully deleted."}.
-
-Successful response: 200
-
-Most common errors:
-
-- 422: Validation error
-- 404: User not found.
-
-### portfolio_settings
-
-#### Get All Settings Of User
-
-- `/portfolio_settings/all`
-
-- no parameters
-
-This endpoint is used to fetch all of the logged-in user's saved portfolio settings from the database, and displaying them in the appropriate section of the frontend. It returns a list of portfolio settings.
-
-Successful response: 200
-
-Most common errors:
-
-- 401: Authorization Failed.
-
-#### Add Portfolio Settings
-
-- `/portfolio_settings/add`
-
-- no parameters
-
-- example of a request body:
-  {
-  "distribution": [
-  0.4,
-  0.3,
-  0.3
-  ],
-  "distribution_type": "exact",
-  "initial_portfolio": 10000,
-  "tickers": [
-  "TSLA",
-  "GOOGL",
-  "META"
-  ]
-  }
-
-This endpoint is used for creating a new instance of portfolio settings that belong to a specific logged-in user. It returns {"message": "Success"}.
-
-Successful response: 201
-
-Most common errors:
-
-- 422: Validation error
-- 401: Authorization Failed.
-- 403: Only {MAX_SETTINGS_PER_USER} settings are allowed per user.
-
-#### Update Settings
-
-- `/portfolio_settings/update/{settings_id}`
-
-- parameters:
-  **settings_id: integer**
-
-- example of a request body:
-  {
-  "distribution": [
-  0.4,
-  0.3,
-  0.3
-  ],
-  "distribution_type": "exact",
-  "initial_portfolio": 10000,
-  "tickers": [
-  "TSLA",
-  "GOOGL",
-  "META"
-  ]
-  }
-
-This endpoint is used for updating an instance of portfolio settings that belong to a logged-in user. It returns {"message": "Success"}.
-
-Successful response: 204
-
-Most common errors:
-
-- 422: Validation Error
-- 401: Authorization Failed.
-- 404: Settings not found.
-
-#### Delete Settings
-
-- `/portfolio_settings/{settings_id}`
-
-- parameters:
-  **settings_id: integer**
-
-This endpoint is used for deleting an instance of portfolio settings that belong to a logged-in user. It returns {"message": "Success"}.
-
-Successful response: 204
-
-Most common errors:
-
-- 422: Validation Error
-- 404: User not found.
-- 404: Portfolio settings not found.
-
-#### Get All Settings
-
-- `/portfolio_settings/`
-
-- no parameters
-
-This endpoint is used for fetching all of the portfolio settings saved by all of the users in the database, and is not meant to be called from the frontend. It returns a list of portfolio settings.
-
-Successful response: 200
-
-### default
-
-#### Health Check
-
-- `/`
-
-- no parameters
-
-This endpoint is used for checking whether the backend is working properly, and is not meant to be called from the frontend. It returns {"Healthy": 200}.
-
-Successful response: 200
-
-#### Db Health Check
-
-- `/health`
-
-- no parameters
-
-This endpoint is used for checking whether the backend is able to establish proper communication with the database, and is not meant to be called from the frontend. It returns {"status": "ok"}, or {"status": "db_error", "detail": error} (for any error).
-
-Successful response: 200
-
-## Database Schema
-
-- if one chooses to manually create the PostgreSQL database, it should be done like so:
-
+```sql
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-id SERIAL PRIMARY KEY,
-email TEXT UNIQUE NOT NULL,
-hashed_password TEXT NOT NULL
+  id SERIAL PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  hashed_password TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS portfolio_settings;
 
 CREATE TABLE portfolio_settings (
-id SERIAL PRIMARY KEY,
-tickers JSONB NOT NULL,
-distribution_type TEXT NOT NULL CHECK (distribution_type IN ('random', 'equal', 'exact')),
-distribution JSONB NOT NULL,
-initial_portfolio DOUBLE PRECISION NOT NULL,
-owner_id INTEGER NOT NULL REFERENCES users(id)
+  id SERIAL PRIMARY KEY,
+  tickers JSONB NOT NULL,
+  distribution_type TEXT NOT NULL CHECK (distribution_type IN ('random', 'equal', 'exact')),
+  distribution JSONB NOT NULL,
+  initial_portfolio DOUBLE PRECISION NOT NULL,
+  owner_id INTEGER NOT NULL REFERENCES users(id)
 );
+```
+
+## Screenshots
+
+![Signup](screenshots/monte-carlo-1.png)
+
+![Login](screenshots/monte-carlo-2.png)
+
+![Settings](screenshots/monte-carlo-3.png)
+
+![Adding new settings](screenshots/monte-carlo-4.png)
+
+![Simulation starter](screenshots/monte-carlo-5.png)
+
+![Simulation results](screenshots/monte-carlo-6.png)
+
+![About](screenshots/monte-carlo-7.png)
+
+## Contributing
+- Improvements and bug fixes welcome. Open an issue or submit a pull request with a clear description of the change.
+
+## License
+- This repository includes a `LICENSE` file — please review it for terms of reuse.
+
+**Contact / Author**
+- Author: repository owner (see repository metadata).
+
