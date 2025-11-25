@@ -10,6 +10,8 @@
 - [Database Schema (reference)](#database-schema-reference)
 - [Screenshots](#screenshots)
 - [License](#license)
+- [Contributing](#contributing)
+- [Author & Contact](#author--contact)
 
 ## Overview
 
