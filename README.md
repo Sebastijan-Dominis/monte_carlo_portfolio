@@ -70,9 +70,11 @@ docker run -p 8000:8000 monte-carlo-backend
 
 ### 3. Frontend
 
+#### Launch a new terminal
+
 #### Navigate to frontend
 ```bash
-cd ../frontend
+cd frontend
 ```
 
 #### Install the dependencies
@@ -83,9 +85,12 @@ npm install
 #### Configure the environment variables (see `.env.example`)
 
 #### Run the frontend server
-```
+```bash
 npm run dev
 ```
+
+#### Use the app
+> typically `http://localhost:5173/`.
 
 ## Environment variables
 
@@ -174,25 +179,40 @@ CREATE TABLE portfolio_settings (
 
 ## Screenshots
 
+### Signup
+
 ![Signup](screenshots/monte-carlo-1.png)
+
+### Login
 
 ![Login](screenshots/monte-carlo-2.png)
 
+### Settings
+
 ![Settings](screenshots/monte-carlo-3.png)
+
+### Adding new settings
 
 ![Adding new settings](screenshots/monte-carlo-4.png)
 
+### Simulation starter
+
 ![Simulation starter](screenshots/monte-carlo-5.png)
 
+### Simulation results
+
 ![Simulation results](screenshots/monte-carlo-6.png)
+
+### About
 
 ![About](screenshots/monte-carlo-7.png)
 
 ## License
 - This repository includes a `LICENSE` file — please review it for terms of reuse.
 
-**Contributing**
+## Contributing
 - Improvements and bug fixes welcome. Open an issue or submit a pull request with a clear description of the change.
 
-**Contact / Author**
-- Author: repository owner (see repository metadata).
+## Author & Contact
+- Author: Sebastijan Dominis
+- Contact: sebastijan.dominis99@gmail.com
