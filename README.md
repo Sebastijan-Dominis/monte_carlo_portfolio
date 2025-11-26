@@ -114,6 +114,8 @@ npm run dev
 ##### Use the app
 > typically `http://localhost:5173/`.
 
+---
+
 ### With docker:
 
 #### Configure the environment variables (see `.env.example`)
