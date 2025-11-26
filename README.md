@@ -13,9 +13,13 @@
 - [Contributing](#contributing)
 - [Author & Contact](#author--contact)
 
+---
+
 ## Overview
 
 Monte Carlo Portfolio is a web app for running Monte Carlo simulations on user-defined portfolios (stocks, ETFs, cryptocurrencies). Users specify tickers, an allocation distribution, and an initial portfolio value. Registered users can save their settings for reuse. The app uses historical price data (default: last 1000 days) to estimate portfolio trajectories over a future window (default: 100 days). This tool is educational and intended to help explore possible outcomes — it is not financial advice.
+
+---
 
 ## Tech Stack
 
@@ -24,6 +28,8 @@ Monte Carlo Portfolio is a web app for running Monte Carlo simulations on user-d
 - Database: PostgreSQL (or SQLite for local development)
 - Deployment: Frontend on Vercel, Backend & DB on Render
 - Docker
+
+---
 
 ## Environment variables
 
@@ -41,9 +47,11 @@ Frontend (examples):
 - `VITE_API_PORT` — backend port (default: `8000`)
 - `VITE_PORT` — frontend port (default: `5173`)
 
-Notes:
+Note:
 
 - Using SQLite (`sqlite:///./mydb`) is convenient for local development; PostgreSQL is recommended for production.
+
+---
 
 ## Installation
 
@@ -55,18 +63,20 @@ Notes:
 
 - Docker
 
+---
+
 ### Without docker:
 
-#### 1. Clone
+### 1. Clone
 
 ```bash
 git clone https://github.com/Sebastijan-Dominis/monte_carlo_portfolio.git
 cd monte_carlo_portfolio
 ```
 
-#### 2. Backend
+### 2. Backend
 
-##### Create and activate a virtual environment
+#### Create and activate a virtual environment
 
 If using Anaconda:
 
@@ -76,66 +86,68 @@ conda create -n monte-carlo-portfolio python=3.12
 conda activate monte-carlo-portfolio
 ```
 
-##### Install the requirements
+#### Install the requirements
 
 ```bash
 pip install -r requirements.txt
 ```
 
-##### Configure the environment variables (see `.env.example`)
+#### Configure the environment variables (see `.env.example`)
 
-##### Launch the backend server
+#### Launch the backend server
 
 ```bash
 uvicorn main:app --reload
 ```
 
-#### 3. Frontend
+### 3. Frontend
 
-##### Launch a new terminal
+#### Launch a new terminal
 
-##### Navigate to frontend
+#### Navigate to frontend
 ```bash
 cd frontend
 ```
 
-##### Install the dependencies
+#### Install the dependencies
 ```bash
 npm install
 ```
 
-##### Configure the environment variables (see `.env.example`)
+#### Configure the environment variables (see `.env.example`)
 
-##### Run the frontend server
+#### Run the frontend server
 ```bash
 npm run dev
 ```
 
-##### Use the app
+### 4. Use the app
 > typically `http://localhost:5173/`.
 
 ---
 
 ### With docker:
 
-#### Configure the environment variables (see `.env.example`)
+### 1. Configure the environment variables (see `.env.example`)
 
 - Do this for both backend and frontend
 
-#### Build the docker image
+### 2. Build the docker image
 
 ```bash
 docker-compose build --no-cache
 ```
 
-#### Run the docker container
+### 3. Run the docker container
 
 ```bash
 docker compose up
 ```
 
-#### Use the app
+### 4. Use the app
 > typically `http://localhost:5173/`.
+
+---
 
 ## API Reference (summary)
 
@@ -177,6 +189,8 @@ docker compose up
 
 Refer to the source `backend/routers/` for full request/response details and validation rules.
 
+---
+
 ## Database Schema (reference)
 
 Example SQL used to create the core tables:
@@ -201,6 +215,8 @@ CREATE TABLE portfolio_settings (
   owner_id INTEGER NOT NULL REFERENCES users(id)
 );
 ```
+
+---
 
 ## Screenshots
 
@@ -231,6 +247,8 @@ CREATE TABLE portfolio_settings (
 ### About
 
 ![About](screenshots/monte-carlo-7.png)
+
+---
 
 ## License
 - This repository includes a `LICENSE` file — please review it for terms of reuse.
