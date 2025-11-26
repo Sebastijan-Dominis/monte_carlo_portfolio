@@ -4,8 +4,8 @@
 
 - [Overview](#overview)
 - [Tech Stack](#tech-stack)
-- [Quick Start (Local)](#quick-start-local)
 - [Environment variables](#environment-variables)
+- [Installation](#installation)
 - [API Reference (summary)](#api-reference-summary)
 - [Database Schema (reference)](#database-schema-reference)
 - [Screenshots](#screenshots)
@@ -23,76 +23,7 @@ Monte Carlo Portfolio is a web app for running Monte Carlo simulations on user-d
 - Backend: FastAPI (Python)
 - Database: PostgreSQL (or SQLite for local development)
 - Deployment: Frontend on Vercel, Backend & DB on Render
-
-## Quick Start (Local)
-
-### Prerequisites
-
-- Node.js
-- Python 3.12+
-- Docker (optional)
-
-### 1. Clone
-
-```bash
-git clone https://github.com/Sebastijan-Dominis/monte_carlo_portfolio.git
-cd monte_carlo_portfolio
-```
-
-### 2. Backend
-
-#### Navigate to backend
-```bash
-cd backend
-```
-
-#### Create a virtual environment
-```bash
-conda create -n monte-carlo-portfolio python=3.12
-```
-
-#### Install the requirements
-```bash
-conda activate monte-carlo-portfolio
-pip install -r requirements.txt
-```
-
-#### Configure the environment variables (see `.env.example`)
-
-#### Launch the backend server
-```bash
-uvicorn main:app --reload
-```
-
-#### Optional Docker run:
-```bash
-docker build -t monte-carlo-backend .
-docker run -p 8000:8000 monte-carlo-backend
-```
-
-### 3. Frontend
-
-#### Launch a new terminal
-
-#### Navigate to frontend
-```bash
-cd frontend
-```
-
-#### Install the dependencies
-```bash
-npm install
-```
-
-#### Configure the environment variables (see `.env.example`)
-
-#### Run the frontend server
-```bash
-npm run dev
-```
-
-#### Use the app
-> typically `http://localhost:5173/`.
+- Docker
 
 ## Environment variables
 
@@ -113,6 +44,96 @@ Frontend (examples):
 Notes:
 
 - Using SQLite (`sqlite:///./mydb`) is convenient for local development; PostgreSQL is recommended for production.
+
+## Installation
+
+### Prerequisites
+
+- Node.js and Python 3.12+
+ 
+**or**
+
+- Docker
+
+### Without docker:
+
+#### 1. Clone
+
+```bash
+git clone https://github.com/Sebastijan-Dominis/monte_carlo_portfolio.git
+cd monte_carlo_portfolio
+```
+
+#### 2. Backend
+
+##### Create and activate a virtual environment
+
+If using Anaconda:
+
+```bash
+cd backend
+conda create -n monte-carlo-portfolio python=3.12
+conda activate monte-carlo-portfolio
+```
+
+##### Install the requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+##### Configure the environment variables (see `.env.example`)
+
+##### Launch the backend server
+
+```bash
+uvicorn main:app --reload
+```
+
+#### 3. Frontend
+
+##### Launch a new terminal
+
+##### Navigate to frontend
+```bash
+cd frontend
+```
+
+##### Install the dependencies
+```bash
+npm install
+```
+
+##### Configure the environment variables (see `.env.example`)
+
+##### Run the frontend server
+```bash
+npm run dev
+```
+
+##### Use the app
+> typically `http://localhost:5173/`.
+
+### With docker:
+
+#### Configure the environment variables (see `.env.example`)
+
+- Do this for both backend and frontend
+
+#### Build the docker image
+
+```bash
+docker-compose build --no-cache
+```
+
+#### Run the docker container
+
+```bash
+docker compose up
+```
+
+#### Use the app
+> typically `http://localhost:5173/`.
 
 ## API Reference (summary)
 
