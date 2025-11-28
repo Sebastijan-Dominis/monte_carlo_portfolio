@@ -26,7 +26,6 @@ Monte Carlo Portfolio is a web app for running Monte Carlo simulations on user-d
 - Frontend: React (TypeScript), Vite
 - Backend: FastAPI (Python)
 - Database: PostgreSQL (or SQLite for local development)
-- Deployment: Frontend on Vercel, Backend & DB on Render
 - Docker
 
 ---
