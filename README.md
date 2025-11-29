@@ -127,23 +127,30 @@ npm run dev
 
 ### With docker:
 
-### 1. Configure the environment variables (see `.env.example`)
+### 1. Clone
+
+```bash
+git clone https://github.com/Sebastijan-Dominis/monte_carlo_portfolio.git
+cd monte_carlo_portfolio
+```
+
+### 2. Configure the environment variables (see `.env.example`)
 
 - Do this for both backend and frontend
 
-### 2. Build the docker image
+### 3. Build the docker image
 
 ```bash
 docker-compose build --no-cache
 ```
 
-### 3. Run the docker container
+### 4. Run the docker container
 
 ```bash
 docker compose up
 ```
 
-### 4. Use the app
+### 5. Use the app
 > typically `http://localhost:5173/`.
 
 ---
